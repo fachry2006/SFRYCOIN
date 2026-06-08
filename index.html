@@ -1,1245 +1,1275 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { 
-  Flame, 
-  TrendingUp, 
-  ShieldCheck, 
-  Share2, 
-  Copy, 
-  Check, 
-  Volume2, 
-  Maximize2, 
-  RefreshCw, 
-  ChevronRight, 
-  ChevronLeft, 
-  Sparkles, 
-  ChefHat, 
-  UtensilsCrossed, 
-  Coins, 
-  Smartphone, 
-  Cpu, 
-  Award, 
-  ExternalLink,
-  MessageCircle,
-  Twitter,
-  ChevronDown,
-  Info
-} from 'lucide-react';
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SFRY - Premium Comic WebApp</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Bangers, Lilita One, Fredoka -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Lilita+One&family=Fredoka:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome untuk ikon media sosial -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-const injectGlobalStyles = () => {
-  if (typeof window !== 'undefined') {
-    // Import high-impact cartoon and comic fonts
-    if (!document.getElementById('comic-fonts')) {
-      const link = document.createElement('link');
-      link.id = 'comic-fonts';
-      link.rel = 'stylesheet';
-      link.href = 'https://fonts.googleapis.com/css2?family=Bangers&family=Lilita+One&family=Fredoka:wght@400;600;700;800&display=swap';
-      document.head.appendChild(link);
-    }
-
-    // Import FontAwesome for extra meme logos
-    if (!document.getElementById('font-awesome')) {
-      const faLink = document.createElement('link');
-      faLink.id = 'font-awesome';
-      faLink.rel = 'stylesheet';
-      faLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css';
-      document.head.appendChild(faLink);
-    }
-
-    // Inject neobrutalism custom classes, animations, and halftone pattern styles
-    if (!document.getElementById('neobrutalism-styles')) {
-      const style = document.createElement('style');
-      style.id = 'neobrutalism-styles';
-      style.innerHTML = `
+    <style>
         .font-comic { font-family: 'Bangers', cursive; }
         .font-bubble { font-family: 'Lilita One', cursive; }
         .font-sans-comic { font-family: 'Fredoka', sans-serif; }
 
-        /* Neobrutalist comic book styling */
+        /* Desain Neobrutalisme Komik */
         .comic-panel {
-          border: 6px solid #0D0D0D;
-          box-shadow: 10px 10px 0px 0px #0D0D0D;
-          transition: transform 0.15s ease, box-shadow 0.15s ease;
+            border: 6px solid #0D0D0D;
+            box-shadow: 10px 10px 0px 0px #0D0D0D;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
         }
         .comic-panel-lg {
-          border: 8px solid #0D0D0D;
-          box-shadow: 14px 14px 0px 0px #0D0D0D;
+            border: 8px solid #0D0D0D;
+            box-shadow: 14px 14px 0px 0px #0D0D0D;
         }
         .comic-panel-sm {
-          border: 4px solid #0D0D0D;
-          box-shadow: 6px 6px 0px 0px #0D0D0D;
+            border: 4px solid #0D0D0D;
+            box-shadow: 6px 6px 0px 0px #0D0D0D;
         }
         
         .comic-btn {
-          border: 4px solid #0D0D0D;
-          box-shadow: 6px 6px 0px 0px #0D0D0D;
-          transition: all 0.1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 4px solid #0D0D0D;
+            box-shadow: 6px 6px 0px 0px #0D0D0D;
+            transition: all 0.1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         .comic-btn:hover {
-          transform: translate(-3px, -3px);
-          box-shadow: 9px 9px 0px 0px #0D0D0D;
+            transform: translate(-3px, -3px);
+            box-shadow: 9px 9px 0px 0px #0D0D0D;
         }
         .comic-btn:active {
-          transform: translate(3px, 3px);
-          box-shadow: 2px 2px 0px 0px #0D0D0D;
+            transform: translate(3px, 3px);
+            box-shadow: 2px 2px 0px 0px #0D0D0D;
         }
 
-        /* 3D Stroke Effect */
+        /* Efek Stroke Teks 3D */
         .text-stroke-sm {
-          -webkit-text-stroke: 1.5px #0D0D0D;
-          text-shadow: 2px 2px 0px #0D0D0D;
+            -webkit-text-stroke: 1.5px #0D0D0D;
+            text-shadow: 2px 2px 0px #0D0D0D;
         }
         .text-stroke-md {
-          -webkit-text-stroke: 2.5px #0D0D0D;
-          text-shadow: 4px 4px 0px #0D0D0D;
+            -webkit-text-stroke: 2.5px #0D0D0D;
+            text-shadow: 4px 4px 0px #0D0D0D;
         }
         .text-stroke-lg {
-          -webkit-text-stroke: 3.5px #0D0D0D;
-          text-shadow: 6px 6px 0px #0D0D0D;
+            -webkit-text-stroke: 3.5px #0D0D0D;
+            text-shadow: 6px 6px 0px #0D0D0D;
         }
 
-        /* Comic Ray Sunburst styling inspired by image_075cba.jpg */
+        /* Efek Sinar Sunburst Komik terinspirasi dari image_075cba.jpg */
         .comic-sunburst {
-          background: conic-gradient(
-            from 0deg,
-            #FF1493 0deg 15deg,
-            #FFD200 15deg 30deg,
-            #FF1493 30deg 45deg,
-            #FFD200 45deg 60deg,
-            #FF1493 60deg 75deg,
-            #FFD200 75deg 90deg,
-            #FF1493 90deg 105deg,
-            #FFD200 105deg 120deg,
-            #FF1493 120deg 135deg,
-            #FFD200 135deg 150deg,
-            #FF1493 150deg 165deg,
-            #FFD200 165deg 180deg,
-            #FF1493 180deg 195deg,
-            #FFD200 195deg 210deg,
-            #FF1493 210deg 225deg,
-            #FFD200 225deg 240deg,
-            #FF1493 240deg 255deg,
-            #FFD200 255deg 270deg,
-            #FF1493 270deg 285deg,
-            #FFD200 285deg 300deg,
-            #FF1493 300deg 315deg,
-            #FFD200 315deg 330deg,
-            #FF1493 330deg 345deg,
-            #FFD200 345deg 360deg
-          );
+            background: conic-gradient(
+                from 0deg,
+                #FF1493 0deg 15deg,
+                #FFD200 15deg 30deg,
+                #FF1493 30deg 45deg,
+                #FFD200 45deg 60deg,
+                #FF1493 60deg 75deg,
+                #FFD200 75deg 90deg,
+                #FF1493 90deg 105deg,
+                #FFD200 105deg 120deg,
+                #FF1493 120deg 135deg,
+                #FFD200 135deg 150deg,
+                #FF1493 150deg 165deg,
+                #FFD200 165deg 180deg,
+                #FF1493 180deg 195deg,
+                #FFD200 195deg 210deg,
+                #FF1493 210deg 225deg,
+                #FFD200 225deg 240deg,
+                #FF1493 240deg 255deg,
+                #FFD200 255deg 270deg,
+                #FF1493 270deg 285deg,
+                #FFD200 285deg 300deg,
+                #FF1493 300deg 315deg,
+                #FFD200 315deg 330deg,
+                #FF1493 330deg 345deg,
+                #FFD200 345deg 360deg
+            );
         }
 
-        /* Halftone Dot pattern from classic comics */
+        /* Pola Titik Halftone Komik Retro */
         .halftone-dots {
-          background-image: radial-gradient(rgba(13, 13, 13, 0.2) 18%, transparent 18%);
-          background-size: 10px 10px;
+            background-image: radial-gradient(rgba(13, 13, 13, 0.2) 18%, transparent 18%);
+            background-size: 10px 10px;
         }
         .halftone-dots-white {
-          background-image: radial-gradient(rgba(255, 255, 255, 0.35) 18%, transparent 18%);
-          background-size: 12px 12px;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.35) 18%, transparent 18%);
+            background-size: 12px 12px;
         }
 
-        /* Apple Emoji Estetik Filter - simulates 3D glossy metallic look */
+        /* Filter Estetik Emoji Apple Glossy */
         .apple-emoji {
-          filter: drop-shadow(1px 2px 1px rgba(0,0,0,0.15)) drop-shadow(3px 4px 0px rgba(0,0,0,0.25));
-          display: inline-block;
-          transform-origin: center;
-          transition: transform 0.2s ease;
+            filter: drop-shadow(1px 2px 1px rgba(0,0,0,0.15)) drop-shadow(3px 4px 0px rgba(0,0,0,0.25));
+            display: inline-block;
+            transform-origin: center;
+            transition: transform 0.2s ease;
         }
         .apple-emoji:hover {
-          transform: scale(1.25) rotate(8deg);
+            transform: scale(1.25) rotate(8deg);
         }
 
-        /* Custom Bounce Animations */
+        /* Animasi Kustom */
         @keyframes custom-float {
-          0%, 100% { transform: translateY(0) rotate(-1deg); }
-          50% { transform: translateY(-15px) rotate(2deg); }
+            0%, 100% { transform: translateY(0) rotate(-1deg); }
+            50% { transform: translateY(-15px) rotate(2deg); }
         }
         .animate-float {
-          animation: custom-float 5s ease-in-out infinite;
+            animation: custom-float 5s ease-in-out infinite;
         }
 
         @keyframes sunburst-spin {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
         .animate-sunburst-spin {
-          animation: sunburst-spin 35s linear infinite;
+            animation: sunburst-spin 35s linear infinite;
         }
 
         @keyframes pulse-light {
-          0%, 100% { filter: brightness(1); }
-          50% { filter: brightness(1.15) saturate(1.15); }
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.15) saturate(1.15); }
         }
         .animate-pulse-light {
-          animation: pulse-light 2s infinite;
-        }
-        
-        /* Smooth scrolling container */
-        html {
-          scroll-behavior: smooth;
+            animation: pulse-light 2s infinite;
         }
 
-        /* Irregular layout styles inspired by image_075c81.jpg */
+        /* Gaya Pembatas Komik Miring terinspirasi dari image_075c81.jpg */
         .comic-gutter {
-          background-color: #FFFFFF;
-          border: 8px solid #0D0D0D;
-          box-shadow: 12px 12px 0px #0D0D0D;
+            background-color: #FFFFFF;
+            border: 8px solid #0D0D0D;
+            box-shadow: 12px 12px 0px #0D0D0D;
         }
 
-        /* Custom Clip paths for authentic slanted panels of image_075c81.jpg / image_0754fc.jpg */
-        .panel-clip-1 {
-          clip-path: polygon(0 0, 100% 0, 88% 100%, 0 100%);
+        /* Animasi Efek Partikel Sizzle */
+        .floating-particle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 100;
+            animation: particle-spin-bounce 2s ease-out forwards;
         }
-        .panel-clip-2 {
-          clip-path: polygon(12% 0, 100% 0, 100% 100%, 0% 100%);
+        @keyframes particle-spin-bounce {
+            0% {
+                transform: translateY(0) rotate(0deg) scale(0.5);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-150px) rotate(360deg) scale(1.5);
+                opacity: 0;
+            }
         }
-        .panel-clip-3 {
-          clip-path: polygon(0 0, 100% 0, 92% 100%, 8% 100%);
-        }
-        .panel-clip-4 {
-          clip-path: polygon(8% 0, 100% 0, 100% 100%, 0 100%);
-        }
-        .panel-clip-5 {
-          clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-        }
-      `;
-      document.head.appendChild(style);
-    }
-  }
-};
+    </style>
+</head>
+<body class="min-h-screen bg-[#FAF5E9] text-[#0D0D0D] font-sans-comic overflow-x-hidden relative selection:bg-[#FFD200] selection:text-[#0D0D0D]">
+    
+    <!-- Pola Halftone Latar Belakang -->
+    <div class="absolute inset-0 halftone-dots opacity-[0.05] pointer-events-none z-0"></div>
 
-export default function App() {
-  const [usdValue, setUsdValue] = useState(250);
-  const [multiplier, setMultiplier] = useState(50);
-  const [customChefName, setCustomChefName] = useState("GOLDEN CHEF");
-  const [customOrderType, setCustomOrderType] = useState("CRISPY MEGA PACK");
-  const [copied, setCopied] = useState(false);
-  const [activeMascotMeme, setActiveMascotMeme] = useState("chef"); // cool, chef, spicy, hype
-  const [customBubbleText, setCustomBubbleText] = useState("Frying Ethereum until it is perfectly crispy!");
-  const [toastMessage, setToastMessage] = useState("");
-  const [toastVisible, setToastVisible] = useState(false);
-  const [particles, setParticles] = useState([]);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [cookingLevel, setCookingLevel] = useState(180); // temperature
-  
-  const contractAddress = "0x7129731273917d84a75f4f44603947c617937";
-  const audioCtxRef = useRef(null);
-
-  useEffect(() => {
-    injectGlobalStyles();
-  }, []);
-
-  const triggerToast = (text) => {
-    setToastMessage(text);
-    setToastVisible(true);
-    setTimeout(() => {
-      setToastVisible(false);
-    }, 3500);
-  };
-
-  const copyContract = () => {
-    const executeFallbackCopy = () => {
-      const textArea = document.createElement("textarea");
-      textArea.value = contractAddress;
-      textArea.style.position = "fixed";
-      textArea.style.top = "0";
-      textArea.style.left = "0";
-      textArea.style.width = "2em";
-      textArea.style.height = "2em";
-      textArea.style.padding = "0";
-      textArea.style.border = "none";
-      textArea.style.outline = "none";
-      textArea.style.boxShadow = "none";
-      textArea.style.background = "transparent";
-      document.body.appendChild(textArea);
-      textArea.focus();
-      textArea.select();
-      
-      try {
-        const successful = document.execCommand('copy');
-        if (successful) {
-          setCopied(true);
-          triggerToast("Contract address cloned to clipboard! 📋");
-          setTimeout(() => setCopied(false), 2000);
-        } else {
-          triggerToast("Copy failed. Address: " + contractAddress);
-        }
-      } catch (err) {
-        triggerToast("Copy failed. Address: " + contractAddress);
-      }
-      
-      document.body.removeChild(textArea);
-    };
-
-    try {
-      if (navigator.clipboard && window.isSecureContext) {
-        navigator.clipboard.writeText(contractAddress)
-          .then(() => {
-            setCopied(true);
-            triggerToast("Contract address cloned to clipboard! 📋");
-            setTimeout(() => setCopied(false), 2000);
-          })
-          .catch(() => {
-            executeFallbackCopy();
-          });
-      } else {
-        executeFallbackCopy();
-      }
-    } catch (e) {
-      executeFallbackCopy();
-    }
-  };
-
-  const playSizzlingGreaseSound = () => {
-    try {
-      if (!audioCtxRef.current) {
-        audioCtxRef.current = new (window.AudioContext || window.webkitAudioContext)();
-      }
-      const ctx = audioCtxRef.current;
-      if (ctx.state === 'suspended') {
-        ctx.resume();
-      }
-
-      const bufferSize = ctx.sampleRate * 2.5; // 2.5 seconds
-      const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-      const data = buffer.getChannelData(0);
-
-      for (let i = 0; i < bufferSize; i++) {
-        const white = Math.random() * 2 - 1;
-        // Periodic crisp bubbles pops for grease texture
-        const crackle = Math.random() > 0.993 ? (Math.random() * 0.9) : 0;
-        data[i] = white * 0.3 + crackle;
-      }
-
-      const noiseNode = ctx.createBufferSource();
-      noiseNode.buffer = buffer;
-
-      const bandpass = ctx.createBiquadFilter();
-      bandpass.type = "bandpass";
-      bandpass.frequency.setValueAtTime(3400, ctx.currentTime);
-      bandpass.frequency.exponentialRampToValueAtTime(4000, ctx.currentTime + 2.2);
-      bandpass.Q.value = 2.0;
-
-      const gainNode = ctx.createGain();
-      gainNode.gain.setValueAtTime(0.4, ctx.currentTime);
-      gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 2.5);
-
-      noiseNode.connect(bandpass);
-      bandpass.connect(gainNode);
-      gainNode.connect(ctx.destination);
-
-      noiseNode.start();
-      
-      spawnMascotParticles();
-      triggerToast("SIZZZLE! Frying temperature spiked! 🌡️🍳");
-    } catch (e) {
-      console.warn("AudioContext failed to load directly:", e);
-    }
-  };
-
-  const spawnMascotParticles = () => {
-    const freshParticles = Array.from({ length: 15 }).map((_, idx) => ({
-      id: Date.now() + idx,
-      emoji: ["🍟", "🔥", "💵", "✨", "👑", "🍳"][Math.floor(Math.random() * 6)],
-      left: Math.random() * 80 + 10,
-      top: Math.random() * 60 + 20,
-      rotation: Math.random() * 360,
-      scale: Math.random() * 1.6 + 0.8
-    }));
-    setParticles((prev) => [...prev, ...freshParticles]);
-    setTimeout(() => {
-      setParticles((prev) => prev.filter(p => !freshParticles.find(f => f.id === p.id)));
-    }, 2200);
-  };
-
-  const getCalculatedFries = () => {
-    return Math.floor(usdValue * 1250000 * (multiplier / 50));
-  };
-
-  return (
-    <div className="min-h-screen bg-[#FAF5E9] text-[#0D0D0D] font-sans-comic overflow-x-hidden relative selection:bg-[#FFD200] selection:text-[#0D0D0D]">
-      
-      {/* Dynamic Background Halftone effect */}
-      <div className="absolute inset-0 halftone-dots opacity-[0.05] pointer-events-none z-0" />
-
-      {/* HEADER NAVBAR */}
-      <header className="sticky top-0 z-50 bg-[#FAF5E9] border-b-[6px] border-black py-4 px-4 sm:px-8">
-        <div className="max-w-7xl mx-auto flex justify-between items-center">
-          
-          {/* Logo with massive hand-drawn comic look */}
-          <a href="#" className="flex items-center gap-2 group transform hover:scale-105 active:scale-95 transition-transform">
-            <span className="text-4xl sm:text-5xl apple-emoji filter drop-shadow-[2px_3px_0px_rgba(0,0,0,1)]">🍟</span>
-            <div className="flex flex-col">
-              <span className="font-bubble text-3xl sm:text-4xl tracking-wider text-[#FF3B30] text-stroke-sm">
-                $SFRY
-              </span>
-              <span className="text-[10px] font-extrabold tracking-widest text-[#00F0FF] uppercase text-stroke-sm bg-[#0D0D0D] px-1.5 py-0.5 rounded">
-                DEEP FRIED COIN
-              </span>
-            </div>
-          </a>
-
-          {/* Desktop Nav Bar Items */}
-          <nav className="hidden lg:flex items-center gap-6 font-bubble text-lg">
-            <a href="#about" className="hover:text-[#FF3B30] hover:scale-105 transition-transform px-3 py-1">COMIC STORY</a>
-            <a href="#customizer" className="hover:text-[#FF9500] hover:scale-105 transition-transform px-3 py-1">CREATION LAB</a>
-            <a href="#receipt" className="hover:text-[#00F0FF] hover:scale-105 transition-transform px-3 py-1">THE RECEIPT</a>
-            <a href="#tokenomics" className="hover:text-[#FFD200] hover:scale-105 transition-transform px-3 py-1">TOKENOMICS</a>
-            <a href="#cookulator" className="hover:text-[#FF3B30] hover:scale-105 transition-transform px-3 py-1">COOKALUTOR</a>
-          </nav>
-
-          {/* Action Buttons */}
-          <div className="flex items-center gap-2 sm:gap-4">
-            <button 
-              onClick={copyContract} 
-              className="comic-btn hidden sm:flex items-center gap-2 bg-[#00F0FF] px-4 py-2 font-bubble text-md rounded-xl"
-            >
-              <Copy className="w-5 h-5" />
-              <span>CONTRACT</span>
-            </button>
-            <a 
-              href="#cookulator" 
-              className="comic-btn bg-[#FF3B30] text-white px-5 py-2 sm:py-2.5 font-bubble text-lg tracking-wider rounded-xl hover:bg-[#ff4e45]"
-            >
-              SWAP NOW <span className="apple-emoji">🔥</span>
-            </a>
+    <!-- HEADER & NAVBAR -->
+    <header class="sticky top-0 z-50 bg-[#FAF5E9] border-b-[6px] border-black py-4 px-4 sm:px-8">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
             
-            {/* Hamburger for mobile */}
-            <button 
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden comic-btn bg-[#FFD200] p-2.5 rounded-xl"
-              aria-label="Toggle Menu"
-            >
-              <div className="w-6 h-1 bg-black mb-1 rounded"></div>
-              <div className="w-6 h-1 bg-black mb-1 rounded"></div>
-              <div className="w-6 h-1 bg-black rounded"></div>
-            </button>
-          </div>
+            <!-- Logo Komik $SFRY -->
+            <a href="#" class="flex items-center gap-2 group transform hover:scale-105 active:scale-95 transition-transform">
+                <span class="text-4xl sm:text-5xl apple-emoji filter drop-shadow-[2px_3px_0px_rgba(0,0,0,1)]">🍟</span>
+                <div class="flex flex-col">
+                    <span class="font-bubble text-3xl sm:text-4xl tracking-wider text-[#FF3B30] text-stroke-sm">
+                        $SFRY
+                    </span>
+                    <span class="text-[10px] font-extrabold tracking-widest text-[#00F0FF] uppercase text-stroke-sm bg-[#0D0D0D] px-1.5 py-0.5 rounded">
+                        DEEP FRIED COIN
+                    </span>
+                </div>
+            </a>
+
+            <!-- Navigasi Menu Desktop -->
+            <nav class="hidden lg:flex items-center gap-6 font-bubble text-lg">
+                <a href="#about" class="hover:text-[#FF3B30] hover:scale-105 transition-transform px-3 py-1">COMIC STORY</a>
+                <a href="#customizer" class="hover:text-[#FF9500] hover:scale-105 transition-transform px-3 py-1">CREATION LAB</a>
+                <a href="#receipt" class="hover:text-[#00F0FF] hover:scale-105 transition-transform px-3 py-1">THE RECEIPT</a>
+                <a href="#tokenomics" class="hover:text-[#FFD200] hover:scale-105 transition-transform px-3 py-1">TOKENOMICS</a>
+                <a href="#cookulator" class="hover:text-[#FF3B30] hover:scale-105 transition-transform px-3 py-1">COOKALUTOR</a>
+            </nav>
+
+            <!-- Tombol Aksi -->
+            <div class="flex items-center gap-2 sm:gap-4">
+                <button 
+                    onclick="copyContract()" 
+                    class="comic-btn hidden sm:flex items-center gap-2 bg-[#00F0FF] px-4 py-2 font-bubble text-md rounded-xl"
+                >
+                    <i class="fa-solid fa-copy"></i>
+                    <span>KONTRAK</span>
+                </button>
+                <a 
+                    href="#cookulator" 
+                    class="comic-btn bg-[#FF3B30] text-white px-5 py-2 sm:py-2.5 font-bubble text-lg tracking-wider rounded-xl hover:bg-[#ff4e45]"
+                >
+                    SWAP NOW <span class="apple-emoji">🔥</span>
+                </a>
+                
+                <!-- Hamburger Menu Mobile -->
+                <button 
+                    onclick="toggleMobileMenu()"
+                    class="lg:hidden comic-btn bg-[#FFD200] p-2.5 rounded-xl"
+                    aria-label="Toggle Menu"
+                >
+                    <div class="w-6 h-1 bg-black mb-1 rounded"></div>
+                    <div class="w-6 h-1 bg-black mb-1 rounded"></div>
+                    <div class="w-6 h-1 bg-black rounded"></div>
+                </button>
+            </div>
         </div>
 
-        {/* Mobile Dropdown Nav Menu */}
-        {mobileMenuOpen && (
-          <div className="lg:hidden mt-4 bg-white border-4 border-black p-4 rounded-2xl comic-panel-lg flex flex-col gap-3 font-bubble text-xl text-center relative z-50">
-            <a href="#about" onClick={() => setMobileMenuOpen(false)} className="hover:bg-[#FAF5E9] py-2 rounded-xl">COMIC STORY</a>
-            <a href="#customizer" onClick={() => setMobileMenuOpen(false)} className="hover:bg-[#FAF5E9] py-2 rounded-xl">CREATION LAB</a>
-            <a href="#receipt" onClick={() => setMobileMenuOpen(false)} className="hover:bg-[#FAF5E9] py-2 rounded-xl">THE RECEIPT</a>
-            <a href="#tokenomics" onClick={() => setMobileMenuOpen(false)} className="hover:bg-[#FAF5E9] py-2 rounded-xl">TOKENOMICS</a>
-            <a href="#cookulator" onClick={() => setMobileMenuOpen(false)} className="hover:bg-[#FAF5E9] py-2 rounded-xl">COOKALUTOR</a>
+        <!-- Menu Dropdown Mobile -->
+        <div id="mobileMenu" class="hidden lg:hidden mt-4 bg-white border-4 border-black p-4 rounded-2xl comic-panel-lg flex flex-col gap-3 font-bubble text-xl text-center relative z-50">
+            <a href="#about" onclick="toggleMobileMenu()" class="hover:bg-[#FAF5E9] py-2 rounded-xl">COMIC STORY</a>
+            <a href="#customizer" onclick="toggleMobileMenu()" class="hover:bg-[#FAF5E9] py-2 rounded-xl">CREATION LAB</a>
+            <a href="#receipt" onclick="toggleMobileMenu()" class="hover:bg-[#FAF5E9] py-2 rounded-xl">THE RECEIPT</a>
+            <a href="#tokenomics" onclick="toggleMobileMenu()" class="hover:bg-[#FAF5E9] py-2 rounded-xl">TOKENOMICS</a>
+            <a href="#cookulator" onclick="toggleMobileMenu()" class="hover:bg-[#FAF5E9] py-2 rounded-xl">COOKALUTOR</a>
             <button 
-              onClick={() => { copyContract(); setMobileMenuOpen(false); }}
-              className="w-full bg-[#00F0FF] py-3 border-2 border-black rounded-xl font-bubble"
+                onclick="copyContract(); toggleMobileMenu();"
+                class="w-full bg-[#00F0FF] py-3 border-2 border-black rounded-xl font-bubble"
             >
-              COPY CONTRACT
+                SALIN KONTRAK
             </button>
-          </div>
-        )}
-      </header>
+        </div>
+    </header>
 
-      {/* HERO HERO SECTION */}
-      <section className="relative bg-[#1A3A1E] border-b-[6px] border-black py-16 sm:py-24 px-4 sm:px-8 overflow-hidden">
-        {/* Halftone texture overlay */}
-        <div className="absolute inset-0 halftone-dots-white opacity-20 pointer-events-none" />
+    <!-- HERO SECTION -->
+    <section class="relative bg-[#1A3A1E] border-b-[6px] border-black py-16 sm:py-24 px-4 sm:px-8 overflow-hidden">
+        <!-- Latar Halftone Putih -->
+        <div class="absolute inset-0 halftone-dots-white opacity-20 pointer-events-none"></div>
         
-        {/* Floating jungle flora elements mirroring reference image_1158ea.jpg */}
-        <div className="absolute top-10 left-6 text-5xl sm:text-7xl opacity-40 select-none animate-float">🌴</div>
-        <div className="absolute bottom-12 right-10 text-5xl sm:text-7xl opacity-30 select-none animate-float" style={{ animationDelay: '1.5s' }}>🌿</div>
+        <!-- Flora Hutan yang Bergerak Float terinspirasi dari image_1158ea.jpg -->
+        <div class="absolute top-10 left-6 text-5xl sm:text-7xl opacity-40 select-none animate-float">🌴</div>
+        <div class="absolute bottom-12 right-10 text-5xl sm:text-7xl opacity-30 select-none animate-float" style="animation-delay: 1.5s;">🌿</div>
 
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 items-center relative z-10">
-          
-          {/* Left panel text contents slanted dynamically */}
-          <div className="lg:col-span-7 flex flex-col items-start gap-6">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 items-center relative z-10">
             
-            {/* Skewed Title Banner */}
-            <div className="transform -rotate-2 hover:rotate-0 transition-transform bg-white border-[6px] border-black p-6 sm:p-8 rounded-[2rem] comic-panel-lg w-full max-w-2xl">
-              <span className="text-md sm:text-lg font-extrabold text-[#FF3B30] tracking-widest bg-[#FFD200] px-3 py-1 rounded border-2 border-black inline-block mb-3 font-bubble">
-                ETHEREUM IS GETTING CRISPY!
-              </span>
-              <h1 className="font-bubble text-5xl sm:text-7xl xl:text-8xl tracking-wider text-[#0D0D0D] leading-none mb-4 text-stroke-md">
-                $SFRY COIN
-              </h1>
-              <p className="font-sans-comic font-semibold text-lg sm:text-2xl text-gray-800 leading-relaxed">
-                The ultimate gold-standard deep-fried cryptographic meme asset. While ordinary projects stay soggy, we boil the oil! 👨‍🍳🔥
-              </p>
-            </div>
-
-            {/* Bubble Dialog Box with custom arrow */}
-            <div className="relative bg-[#FAF5E9] border-[5px] border-black p-6 rounded-[2rem] comic-panel max-w-xl transform rotate-1 mt-2">
-              <div className="absolute -left-5 top-1/2 -translate-y-1/2 w-0 h-0 border-t-[15px] border-t-transparent border-r-[25px] border-r-black border-b-[15px] border-b-transparent hidden lg:block" />
-              <div className="absolute -left-3 top-1/2 -translate-y-1/2 w-0 h-0 border-t-[12px] border-t-transparent border-r-[20px] border-r-[#FAF5E9] border-b-[12px] border-b-transparent hidden lg:block" />
-              <p className="font-sans-comic font-bold text-md sm:text-lg text-gray-800">
-                <span className="text-[#FF3B30] font-extrabold">CHEF ANNOUNCEMENT:</span> "The frying baskets are lowered! Our crispness is certified by decentralized fire!"
-              </p>
-            </div>
-
-            {/* Main Interactive sound trigger buttons */}
-            <div className="flex flex-wrap gap-4 w-full mt-4">
-              <button 
-                onClick={playSizzlingGreaseSound}
-                className="comic-btn flex items-center justify-center gap-3 bg-[#FF9500] text-black font-bubble text-xl sm:text-2xl tracking-wide px-8 py-5 rounded-2xl w-full sm:w-auto"
-              >
-                <span className="apple-emoji">🔊</span> SIZZLE THE FRYER!
-              </button>
-              <a 
-                href="#cookulator"
-                className="comic-btn flex items-center justify-center gap-2 bg-[#00F0FF] text-black font-bubble text-xl sm:text-2xl tracking-wide px-8 py-5 rounded-2xl w-full sm:w-auto text-center"
-              >
-                SWAP ETHEREUM <span className="apple-emoji">🥞</span>
-              </a>
-            </div>
-
-          </div>
-
-          {/* Right Panel Mascot Box with the gorgeous repeating Sunburst Pattern inspired by image_075cba.jpg and image_07553b.png */}
-          <div className="lg:col-span-5 flex justify-center relative">
-            <div className="relative w-full max-w-[420px] aspect-square rounded-[2.5rem] border-[6px] border-black bg-[#FFD200] overflow-hidden comic-panel-lg transform rotate-2">
-              
-              {/* FIXED SUNBURST POSITIONING to avoid layout spillouts like in image_07555c.png */}
-              <div className="absolute -top-[75%] -left-[75%] w-[250%] h-[250%] origin-center pointer-events-none z-0 overflow-hidden">
-                <div className="w-full h-full comic-sunburst opacity-95 animate-sunburst-spin" />
-              </div>
-
-              {/* Dotted Overlay to emphasize comic texture */}
-              <div className="absolute inset-0 halftone-dots opacity-25 pointer-events-none z-0" />
-
-              {/* Glowing dashed inner ring */}
-              <div className="absolute inset-4 rounded-full border-4 border-dashed border-white/40 animate-pulse pointer-events-none z-0" />
-
-              {/* Styled Mascot inside the sunburst */}
-              <div className="absolute inset-0 flex items-center justify-center p-8 z-10">
-                <svg className="w-11/12 h-11/12 filter drop-shadow-[5px_8px_0px_#000]" viewBox="0 0 500 500">
-                  {/* Hat */}
-                  <path d="M190 120 Q210 50 250 50 Q290 50 310 120 Z" fill="#FFFFFF" stroke="#000" strokeWidth="8" />
-                  <path d="M150 140 Q185 70 220 140 Z" fill="#FFFFFF" stroke="#000" strokeWidth="8" />
-                  <path d="M280 140 Q315 70 350 140 Z" fill="#FFFFFF" stroke="#000" strokeWidth="8" />
-                  <rect x="180" y="130" width="140" height="35" rx="10" fill="#FFFFFF" stroke="#000" strokeWidth="8" />
-                  <rect x="185" y="145" width="130" height="10" fill="#FF3B30" />
-
-                  {/* Golden-brown Apple-style glossy french fries */}
-                  <rect x="160" y="140" width="30" height="100" rx="8" fill="#FFD200" stroke="#000" strokeWidth="7" transform="rotate(-15 160 140)" />
-                  <rect x="200" y="115" width="32" height="130" rx="8" fill="#FFE552" stroke="#000" strokeWidth="7" transform="rotate(-5 200 115)" />
-                  <rect x="240" y="105" width="32" height="140" rx="8" fill="#FFD200" stroke="#000" strokeWidth="7" />
-                  <rect x="280" y="118" width="32" height="130" rx="8" fill="#FFE552" stroke="#000" strokeWidth="7" transform="rotate(8 280 118)" />
-                  <rect x="320" y="145" width="30" height="100" rx="8" fill="#FFD200" stroke="#000" strokeWidth="7" transform="rotate(18 320 145)" />
-
-                  {/* Glossy packaging cup red */}
-                  <path d="M140 220 L175 420 L325 420 L360 220 Z" fill="#FF3B30" stroke="#000" strokeWidth="10" strokeLinejoin="round" />
-                  
-                  {/* Gloss highlight on packaging */}
-                  <path d="M155 230 L180 390" stroke="#FFA39E" strokeWidth="6" strokeLinecap="round" />
-
-                  {/* High Glossy 3D Sunglasses */}
-                  <rect x="175" y="245" width="62" height="42" rx="12" fill="#0D0D0D" stroke="#FFF" strokeWidth="6" />
-                  <rect x="263" y="245" width="62" height="42" rx="12" fill="#0D0D0D" stroke="#FFF" strokeWidth="6" />
-                  <rect x="235" y="260" width="30" height="12" fill="#0D0D0D" />
-                  {/* Glass Gloss reflections */}
-                  <circle cx="190" cy="258" r="4" fill="#FFF" />
-                  <circle cx="278" cy="258" r="4" fill="#FFF" />
-                  <line x1="195" y1="265" x2="210" y2="280" stroke="#FFF" strokeWidth="4" strokeLinecap="round" />
-                  <line x1="283" y1="265" x2="298" y2="280" stroke="#FFF" strokeWidth="4" strokeLinecap="round" />
-
-                  {/* Cute Mouth */}
-                  <path d="M215 320 Q250 375 285 320" fill="none" stroke="#000" strokeWidth="8" strokeLinecap="round" />
-
-                  {/* Gold Badge */}
-                  <circle cx="250" cy="380" r="24" fill="#FFD200" stroke="#000" strokeWidth="6" />
-                  <text x="240" y="394" fontFamily="Bangers" fontSize="40" fill="#0D0D0D">$</text>
-                </svg>
-              </div>
-
-              {/* Slanted badge banner attached (Exact match to image_07553b.png) */}
-              <div className="absolute bottom-4 left-4 right-4 bg-white border-4 border-black py-2.5 text-center font-bubble text-xl rounded-xl z-20 shadow-[4px_4px_0px_#000]">
-                MEET THE GOLDEN CHEF <span className="apple-emoji">👨‍🍳</span>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-        {/* Dynamic Wave bottom divider matching the puffy cloud scene of image_1158ea.jpg */}
-        <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-[0]">
-          <svg className="relative block w-full h-[60px]" viewBox="0 0 1200 120" preserveAspectRatio="none">
-            <path d="M0,80 C100,50 150,110 250,80 C350,50 400,90 500,70 C600,50 700,100 800,80 C900,60 950,110 1050,80 C1150,50 1200,90 1200,80 L1200,120 L0,120 Z" fill="#FAF5E9" />
-          </svg>
-        </div>
-      </section>
-
-      {/* COMIC STORY SECTION - MATCHING image_0754fc.jpg & image_075c81.jpg */}
-      <section id="about" className="py-20 px-4 sm:px-8 max-w-7xl mx-auto relative">
-        <div className="text-center mb-12 transform -rotate-1">
-          <span className="font-bubble text-xl text-white uppercase tracking-widest bg-black px-4 py-1.5 rounded-lg border-2 border-black inline-block shadow-[3px_3px_0px_#FFD200]">
-            THE STORY BOARD
-          </span>
-          <h2 className="font-bubble text-4xl sm:text-6xl text-[#FF3B30] mt-3 tracking-wider text-stroke-md">
-            WHY SOGGY MEMES GET DEEP FRIED!
-          </h2>
-          <p className="font-sans-comic font-bold text-lg text-gray-700 mt-2">
-            Read through our official chronological comic strips styled after <span className="underline">image_0754fc.jpg</span> / <span className="underline">image_075c81.jpg</span>
-          </p>
-        </div>
-
-        {/* IMAGE_0754FC.JPG / IMAGE_075C81.JPG PERFECT GRID REPRESENTATION */}
-        {/* We build irregular comic cells using dynamic layouts and white gutters */}
-        <div className="comic-gutter p-6 sm:p-8 rounded-[2.5rem] bg-white grid grid-cols-1 md:grid-cols-12 gap-5 relative overflow-hidden">
-          
-          {/* Subtle line background details typical of comic margins */}
-          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(0,0,0,0.03)_1px,transparent_1px)] bg-[size:15px_15px] pointer-events-none" />
-
-          {/* PANEL 1: YELLOW PANEL (Top Left Trap-Angle) */}
-          <div className="md:col-span-4 bg-[#FFD200] border-[5px] border-black p-6 rounded-2xl relative overflow-hidden transform hover:scale-[1.02] transition-transform min-h-[300px] flex flex-col justify-between shadow-[6px_6px_0px_#000]">
-            {/* Dense Halftone dots matching original print look */}
-            <div className="absolute inset-0 halftone-dots opacity-25 pointer-events-none" />
-            <div className="absolute top-2 right-2 bg-black text-white font-bubble text-xs px-2.5 py-1 rounded z-10">PANEL #1</div>
-            
-            <div className="relative z-10 mt-4">
-              <span className="text-5xl apple-emoji mb-3 block">🐸🐕</span>
-              <h3 className="font-bubble text-2xl text-black leading-tight text-stroke-sm">THE WATERFRONT CRISIS</h3>
-              <p className="font-sans-comic text-sm text-black font-semibold mt-2 leading-relaxed">
-                The ecosystem got flooded with slimy frogs, damp dogs, and soggy assets. They completely lost their crispness and nutritional blockchain value!
-              </p>
-            </div>
-            
-            <div className="relative z-10 bg-white border-4 border-black py-2 px-3 rounded-xl text-center font-bubble text-sm text-[#FF3B30] mt-4 shadow-[3px_3px_0px_#000]">
-              "WE ARE OVERPLAYED AND SOGGY!"
-            </div>
-          </div>
-
-          {/* PANEL 2: BLUE PANEL (Top Right Trap-Angle) */}
-          <div className="md:col-span-8 bg-[#1E90FF] border-[5px] border-black p-6 rounded-2xl relative overflow-hidden transform hover:scale-[1.02] transition-transform min-h-[300px] flex flex-col justify-between text-white shadow-[6px_6px_0px_#000]">
-            <div className="absolute inset-0 halftone-dots-white opacity-25 pointer-events-none" />
-            <div className="absolute top-2 right-2 bg-black text-white font-bubble text-xs px-2.5 py-1 rounded z-10">PANEL #2</div>
-
-            <div className="relative z-10 mt-4">
-              <span className="text-5xl apple-emoji mb-3 block">👨‍🍳🌋</span>
-              <h3 className="font-bubble text-3xl text-[#FFD200] text-stroke-sm leading-tight">ENTER THE VOLCANIC FRYER</h3>
-              <p className="font-sans-comic text-base text-white font-semibold mt-2 leading-relaxed">
-                We lowered the decentralized frying baskets straight into the volcanic hot grease of the Ethereum Mainnet. Out came golden-brown cryptographic perfection!
-              </p>
-            </div>
-
-            <div className="relative z-10 bg-black border-4 border-white py-2 px-3 rounded-xl text-center font-bubble text-sm text-[#00F0FF] mt-4 shadow-[3px_3px_0px_#fff]">
-              "DIAL THE TEMPERATURE TO 180°C!"
-            </div>
-          </div>
-
-          {/* PANEL 3: ORANGE/BROWN PANEL (Middle Slanted Panel) */}
-          <div className="md:col-span-7 bg-[#D2691E] border-[5px] border-black p-6 rounded-2xl relative overflow-hidden transform hover:scale-[1.02] transition-transform min-h-[300px] flex flex-col justify-between text-white shadow-[6px_6px_0px_#000]">
-            <div className="absolute inset-0 halftone-dots opacity-30 pointer-events-none" />
-            <div className="absolute top-2 right-2 bg-black text-white font-bubble text-xs px-2.5 py-1 rounded z-10">PANEL #3</div>
-
-            <div className="relative z-10 mt-4">
-              <span className="text-5xl apple-emoji mb-3 block">🍟🔋</span>
-              <h3 className="font-bubble text-3xl text-white text-stroke-sm leading-tight">THE CRUNCH FORMULA</h3>
-              <p className="font-sans-comic text-base text-orange-100 font-semibold mt-2 leading-relaxed">
-                By maintaining a strict 0% tax policy and locking 100% of the liquidity, we built a fireproof recipe that cooks without creating gas-guzzling toxicity.
-              </p>
-            </div>
-
-            <div className="relative z-10 bg-white border-4 border-black py-2 px-3 rounded-xl text-center font-bubble text-sm text-black mt-4 shadow-[3px_3px_0px_#000]">
-              "100% DEEP CRUSTY ASSURED!"
-            </div>
-          </div>
-
-          {/* PANEL 4: PURPLE PANEL (Middle Right Tall slanted) */}
-          <div className="md:col-span-5 bg-[#8A2BE2] border-[5px] border-black p-6 rounded-2xl relative overflow-hidden transform hover:scale-[1.02] transition-transform min-h-[300px] flex flex-col justify-between text-white shadow-[6px_6px_0px_#000]">
-            <div className="absolute inset-0 halftone-dots-white opacity-25 pointer-events-none" />
-            <div className="absolute top-2 right-2 bg-black text-white font-bubble text-xs px-2.5 py-1 rounded z-10">PANEL #4</div>
-
-            <div className="relative z-10 mt-4">
-              <span className="text-5xl apple-emoji mb-3 block">👑📈</span>
-              <h3 className="font-bubble text-2xl text-[#FFD200] text-stroke-sm leading-tight">ACCUMULATION SEASON</h3>
-              <p className="font-sans-comic text-sm text-purple-100 font-semibold mt-2 leading-relaxed">
-                Smart chefs everywhere are dumping their damp, stale tokens to stockpile the hot, premium $SFRY baskets. The kitchen aroma is spreading fast!
-              </p>
-            </div>
-
-            <div className="relative z-10 bg-[#00F0FF] text-black border-4 border-black py-2 px-3 rounded-xl text-center font-bubble text-sm mt-4 shadow-[3px_3px_0px_#000]">
-              "SUPER-SIZE MY COIN BAGS!"
-            </div>
-          </div>
-
-          {/* PANEL 5: GREEN PANEL (Bottom Left Slanted Angle) */}
-          <div className="md:col-span-6 bg-[#32CD32] border-[5px] border-black p-6 rounded-2xl relative overflow-hidden transform hover:scale-[1.02] transition-transform min-h-[280px] flex flex-col justify-between shadow-[6px_6px_0px_#000]">
-            <div className="absolute inset-0 halftone-dots opacity-25 pointer-events-none" />
-            <div className="absolute top-2 right-2 bg-black text-white font-bubble text-xs px-2.5 py-1 rounded z-10">PANEL #5</div>
-
-            <div className="relative z-10 mt-4">
-              <span className="text-5xl apple-emoji mb-3 block">🛡️🔐</span>
-              <h3 className="font-bubble text-2xl text-black leading-tight text-stroke-sm">SECURE LOCKED VAULTS</h3>
-              <p className="font-sans-comic text-sm text-black font-semibold mt-2 leading-relaxed">
-                The LP key is permanently burned, and our chef operations are audited. No raw or sketchy potatoes allowed in our high-end fryer vaults.
-              </p>
-            </div>
-
-            <div className="relative z-10 bg-white border-4 border-black py-2 px-3 rounded-xl text-center font-bubble text-sm text-[#FF3B30] mt-4 shadow-[3px_3px_0px_#000]">
-              "KITCHEN AUDIT CERTIFIED!"
-            </div>
-          </div>
-
-          {/* PANEL 6: RED PANEL (Bottom Right Trap Angle) */}
-          <div className="md:col-span-6 bg-[#FF3B30] border-[5px] border-black p-6 rounded-2xl relative overflow-hidden transform hover:scale-[1.02] transition-transform min-h-[280px] flex flex-col justify-between text-white shadow-[6px_6px_0px_#000]">
-            <div className="absolute inset-0 halftone-dots-white opacity-25 pointer-events-none" />
-            <div className="absolute top-2 right-2 bg-black text-white font-bubble text-xs px-2.5 py-1 rounded z-10">PANEL #6</div>
-
-            <div className="relative z-10 mt-4">
-              <span className="text-5xl apple-emoji mb-3 block">🚀🌖</span>
-              <h3 className="font-bubble text-2xl text-white text-stroke-sm leading-tight">LUNAR CRISPY SUPREMACY</h3>
-              <p className="font-sans-comic text-sm text-red-100 font-semibold mt-2 leading-relaxed">
-                Our trajectory doesn't stop at lukewarm heights. $SFRY is engineered to scale up until every single holder enjoys supreme, golden-brown rewards!
-              </p>
-            </div>
-
-            <div className="relative z-10 bg-[#FFD200] text-black border-4 border-black py-2 px-3 rounded-xl text-center font-bubble text-sm mt-4 shadow-[3px_3px_0px_#000]">
-              "TO THE ABSOLUTE CRISPY MOON!"
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      {/* CREATOR CUSTOMIZER LAB - WITH STABLE SUNBURST ACCORDING TO image_07555c.png and image_07553b.png */}
-      <section id="customizer" className="py-16 bg-[#FF9500] border-y-[6px] border-black relative">
-        <div className="absolute inset-0 halftone-dots opacity-10 pointer-events-none" />
-
-        <div className="max-w-7xl mx-auto px-4 sm:px-8">
-          <div className="text-center mb-12">
-            <span className="font-bubble text-lg bg-white border-2 border-black px-4 py-1 rounded-lg inline-block text-stroke-sm shadow-sm">
-              COMIC BOOK CREATION SUITE
-            </span>
-            <h2 className="font-bubble text-4xl sm:text-6xl text-white mt-3 text-stroke-md animate-pulse-light">
-              THE COMIC CREATOR LAB
-            </h2>
-            <p className="font-sans-comic font-bold text-lg text-[#0D0D0D] max-w-xl mx-auto mt-2">
-              Modify $SFRY's expression, write custom dialog statements, and render your customized comic panel!
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-stretch">
-            
-            {/* Interactive Customizer controls */}
-            <div className="lg:col-span-5 bg-white border-[5px] border-black p-6 sm:p-8 rounded-[2rem] comic-panel-lg flex flex-col justify-between relative z-10">
-              
-              <div>
-                <h3 className="font-bubble text-2xl mb-4 border-b-4 border-black pb-2 text-[#FF3B30] flex items-center gap-2">
-                  <span>1. CHOOSE EXPRESSION</span>
-                  <span className="text-xs bg-black text-white px-2 py-0.5 rounded uppercase">Mood</span>
-                </h3>
+            <!-- Panel Teks Samping -->
+            <div class="lg:col-span-7 flex flex-col items-start gap-6">
                 
-                {/* Mood buttons grids */}
-                <div className="grid grid-cols-2 gap-3 mb-6">
-                  {[
-                    { id: "cool", label: "😎 COOL CHILL", color: "#00F0FF", text: "Frying ethereum until it is perfectly crispy!" },
-                    { id: "chef", label: "👨‍🍳 HEAD COOK", color: "#FFD200", text: "Who allowed this absolute masterpiece to cook?!" },
-                    { id: "spicy", label: "🔥 SPICY FLAME", color: "#FF3B30", text: "The chart performance is sizzling hot!" },
-                    { id: "hype", label: "🚀 TO THE MOON", color: "#32CD32", text: "Lower the rocket-powered fry baskets!" }
-                  ].map((mood) => (
-                    <button
-                      key={mood.id}
-                      onClick={() => {
-                        setActiveMascotMeme(mood.id);
-                        setCustomBubbleText(mood.text);
-                        triggerToast(`Expression customized: ${mood.label}`);
-                      }}
-                      className={`comic-btn p-3 rounded-xl font-bubble text-md text-center border-2 ${
-                        activeMascotMeme === mood.id 
-                          ? 'scale-105 border-black text-white shadow-[3px_3px_0px_#000]' 
-                          : 'bg-gray-100 text-[#0D0D0D]'
-                      }`}
-                      style={{ backgroundColor: activeMascotMeme === mood.id ? mood.color : undefined }}
+                <!-- Banner Judul Miring Komik -->
+                <div class="transform -rotate-2 hover:rotate-0 transition-transform bg-white border-[6px] border-black p-6 sm:p-8 rounded-[2rem] comic-panel-lg w-full max-w-2xl">
+                    <span class="text-md sm:text-lg font-extrabold text-[#FF3B30] tracking-widest bg-[#FFD200] px-3 py-1 rounded border-2 border-black inline-block mb-3 font-bubble">
+                        ETHEREUM IS GETTING CRISPY!
+                    </span>
+                    <h1 class="font-bubble text-5xl sm:text-7xl xl:text-8xl tracking-wider text-[#0D0D0D] leading-none mb-4 text-stroke-md">
+                        $SFRY COIN
+                    </h1>
+                    <p class="font-sans-comic font-semibold text-lg sm:text-2xl text-gray-800 leading-relaxed">
+                        Aset meme kriptografi gorengan standar emas terbaik. Saat proyek lain loyo dan lembek, kami mendidihkan minyaknya! 👨‍🍳🔥
+                    </p>
+                </div>
+
+                <!-- Bubble Dialog Pengumuman -->
+                <div class="relative bg-[#FAF5E9] border-[5px] border-black p-6 rounded-[2rem] comic-panel max-w-xl transform rotate-1 mt-2">
+                    <div class="absolute -left-5 top-1/2 -translate-y-1/2 w-0 h-0 border-t-[15px] border-t-transparent border-r-[25px] border-r-black border-b-[15px] border-b-transparent hidden lg:block"></div>
+                    <div class="absolute -left-3 top-1/2 -translate-y-1/2 w-0 h-0 border-t-[12px] border-t-transparent border-r-[20px] border-r-[#FAF5E9] border-b-[12px] border-b-transparent hidden lg:block"></div>
+                    <p class="font-sans-comic font-bold text-md sm:text-lg text-gray-800">
+                        <span class="text-[#FF3B30] font-extrabold">PENGUMUMAN CHEF:</span> "Keranjang gorengan diturunkan! Kegaringan kami disertifikasi oleh api desentralisasi!"
+                    </p>
+                </div>
+
+                <!-- Tombol Interaktif -->
+                <div class="flex flex-wrap gap-4 w-full mt-4">
+                    <button 
+                        onclick="playSizzlingGreaseSound()"
+                        class="comic-btn flex items-center justify-center gap-3 bg-[#FF9500] text-black font-bubble text-xl sm:text-2xl tracking-wide px-8 py-5 rounded-2xl w-full sm:w-auto"
                     >
-                      {mood.label}
+                        <span class="apple-emoji">🔊</span> SIZZLE THE FRYER!
                     </button>
-                  ))}
+                    <a 
+                        href="#cookulator"
+                        class="comic-btn flex items-center justify-center gap-2 bg-[#00F0FF] text-black font-bubble text-xl sm:text-2xl tracking-wide px-8 py-5 rounded-2xl w-full sm:w-auto text-center"
+                    >
+                        SWAP ETHEREUM <span class="apple-emoji">🥞</span>
+                    </a>
                 </div>
-
-                <h3 className="font-bubble text-2xl mb-3 border-b-4 border-black pb-2 text-[#FF9500]">
-                  2. CUSTOM STATEMENT
-                </h3>
-                <textarea
-                  className="w-full border-4 border-black p-4 rounded-xl font-sans-comic font-bold text-lg outline-none focus:ring-4 focus:ring-[#00F0FF]/50 bg-[#FAF5E9] mb-4"
-                  rows="3"
-                  maxLength="80"
-                  value={customBubbleText}
-                  onChange={(e) => setCustomBubbleText(e.target.value)}
-                  placeholder="Type in a customized dialog bubble..."
-                />
-              </div>
-
-              {/* Slider for Temperature */}
-              <div className="bg-[#FAF5E9] p-4 border-2 border-black rounded-xl">
-                <div className="flex justify-between items-center mb-1">
-                  <span className="font-bubble text-xs text-gray-500">FRYING TEMPERATURE</span>
-                  <span className="font-bubble text-xs bg-red-500 text-white px-2 py-0.5 rounded">{cookingLevel}°C</span>
-                </div>
-                <input 
-                  type="range" 
-                  min="100" 
-                  max="220" 
-                  value={cookingLevel}
-                  onChange={(e) => setCookingLevel(e.target.value)}
-                  className="w-full accent-[#FF3B30] h-2 bg-black rounded"
-                />
-              </div>
 
             </div>
 
-            {/* PREVENT SPINNING OVERFLOW: Styled with exact overflow-hidden parent constraints like image_07553b.png */}
-            <div className="lg:col-span-7 bg-[#FAF5E9] border-[6px] border-black p-6 sm:p-10 rounded-[2rem] comic-panel-lg flex flex-col justify-between items-center relative min-h-[400px] overflow-hidden">
-              
-              {/* STABILIZED SUNBURST: Nested securely inside container boundaries to fix image_07555c.png */}
-              <div className="absolute -top-[75%] -left-[75%] w-[250%] h-[250%] origin-center pointer-events-none z-0 overflow-hidden">
-                <div className="w-full h-full comic-sunburst opacity-80 animate-sunburst-spin" />
-              </div>
-              <div className="absolute inset-0 halftone-dots opacity-20 pointer-events-none z-0" />
+            <!-- Panel Kanan Maskot dengan Sunburst Berputar (Aman & Tidak Bocor) -->
+            <div class="lg:col-span-5 flex justify-center relative">
+                <div class="relative w-full max-w-[420px] aspect-square rounded-[2.5rem] border-[6px] border-black bg-[#FFD200] overflow-hidden comic-panel-lg transform rotate-2">
+                    
+                    <!-- Sunburst Latar Belakang Terisolasi agar Tidak Meluber -->
+                    <div class="absolute -top-[75%] -left-[75%] w-[250%] h-[250%] origin-center pointer-events-none z-0 overflow-hidden">
+                        <div class="w-full h-full comic-sunburst opacity-95 animate-sunburst-spin"></div>
+                    </div>
 
-              {/* Dynamic Speech Bubble */}
-              <div className="bg-white border-4 border-black p-5 sm:p-6 rounded-[2rem] comic-panel max-w-lg relative mb-4 z-10 text-center transform -rotate-1 shadow-[4px_4px_0px_#000]">
-                <div className="absolute bottom-[-16px] left-1/2 -translate-x-1/2 w-0 h-0 border-l-[15px] border-l-transparent border-t-[20px] border-t-black border-r-[15px] border-r-transparent" />
-                <div className="absolute bottom-[-11px] left-1/2 -translate-x-1/2 w-0 h-0 border-l-[12px] border-l-transparent border-t-[16px] border-t-white border-r-[12px] border-r-transparent" />
-                <p className="font-bubble text-xl sm:text-2xl text-[#FF3B30] leading-snug">
-                  "{customBubbleText}"
-                </p>
-              </div>
+                    <!-- Tekstur Halftone -->
+                    <div class="absolute inset-0 halftone-dots opacity-25 pointer-events-none z-0"></div>
 
-              {/* Live Mascot expression view based on selected state */}
-              <div className="w-64 h-64 relative z-10 transition-transform duration-300 transform hover:scale-110 filter drop-shadow-[5px_5px_0px_#000]">
-                {activeMascotMeme === "cool" && (
-                  <svg className="w-full h-full" viewBox="0 0 500 500">
-                    <rect x="180" y="140" width="30" height="100" rx="8" fill="#FFD200" stroke="#000" strokeWidth="8" transform="rotate(-15)" />
-                    <rect x="220" y="110" width="30" height="130" rx="8" fill="#FFE552" stroke="#000" strokeWidth="8" />
-                    <rect x="260" y="110" width="30" height="130" rx="8" fill="#FFD200" stroke="#000" strokeWidth="8" />
-                    <rect x="300" y="140" width="30" height="100" rx="8" fill="#FFE552" stroke="#000" strokeWidth="8" transform="rotate(15)" />
-                    <path d="M140 220 L175 420 L325 420 L360 220 Z" fill="#FF3B30" stroke="#000" strokeWidth="10" />
-                    {/* Sunglasses */}
-                    <rect x="175" y="240" width="62" height="42" rx="12" fill="#0D0D0D" stroke="#FFF" strokeWidth="6" />
-                    <rect x="263" y="240" width="62" height="42" rx="12" fill="#0D0D0D" stroke="#FFF" strokeWidth="6" />
-                    <rect x="235" y="255" width="30" height="12" fill="#0D0D0D" />
-                    <path d="M210 320 Q250 370 290 320" stroke="#000" strokeWidth="8" fill="none" strokeLinecap="round" />
-                    <circle cx="250" cy="380" r="24" fill="#FFD200" stroke="#000" strokeWidth="6" />
-                  </svg>
-                )}
-                {activeMascotMeme === "chef" && (
-                  <svg className="w-full h-full" viewBox="0 0 500 500">
-                    {/* Chef Hat */}
-                    <path d="M190 110 Q210 40 250 40 Q290 40 310 110 Z" fill="#FFFFFF" stroke="#000" strokeWidth="8" />
-                    <rect x="180" y="120" width="140" height="30" rx="10" fill="#FFFFFF" stroke="#000" strokeWidth="8" />
-                    <path d="M140 220 L175 420 L325 420 L360 220 Z" fill="#FF3B30" stroke="#000" strokeWidth="10" />
-                    {/* Cute cartoon eyes */}
-                    <circle cx="210" cy="250" r="20" fill="#0D0D0D" />
-                    <circle cx="215" cy="245" r="6" fill="#FFF" />
-                    <circle cx="290" cy="250" r="20" fill="#0D0D0D" />
-                    <circle cx="295" cy="245" r="6" fill="#FFF" />
-                    <path d="M220 310 Q250 340 280 310" stroke="#000" strokeWidth="8" fill="none" strokeLinecap="round" />
-                    <circle cx="250" cy="370" r="24" fill="#FFD200" stroke="#000" strokeWidth="6" />
-                  </svg>
-                )}
-                {activeMascotMeme === "spicy" && (
-                  <svg className="w-full h-full" viewBox="0 0 500 500">
-                    <path d="M140 220 L175 420 L325 420 L360 220 Z" fill="#FF3B30" stroke="#000" strokeWidth="10" />
-                    {/* Flames */}
-                    <path d="M170 170 Q210 80 230 150 Q270 80 290 160 Q330 90 340 180 Z" fill="#FF9500" stroke="#000" strokeWidth="8" />
-                    {/* Angry cartoon eyes */}
-                    <path d="M180 240 L230 260" stroke="#000" strokeWidth="8" strokeLinecap="round" />
-                    <path d="M320 240 L270 260" stroke="#000" strokeWidth="8" strokeLinecap="round" />
-                    <circle cx="205" cy="270" r="14" fill="#FF3B30" stroke="#000" strokeWidth="5" />
-                    <circle cx="295" cy="270" r="14" fill="#FF3B30" stroke="#000" strokeWidth="5" />
-                    {/* Grinning Mouth */}
-                    <path d="M210 320 Q250 360 290 320 Z" fill="#0D0D0D" stroke="#000" strokeWidth="6" />
-                    <circle cx="250" cy="380" r="24" fill="#FFD200" stroke="#000" strokeWidth="6" />
-                  </svg>
-                )}
-                {activeMascotMeme === "hype" && (
-                  <svg className="w-full h-full" viewBox="0 0 500 500">
-                    <path d="M140 220 L175 420 L325 420 L360 220 Z" fill="#FF3B30" stroke="#000" strokeWidth="10" />
-                    {/* Stars in eyes */}
-                    <path d="M185 240 L200 270 L230 270 L205 290 L215 320 L190 300 L165 320 L175 290 L150 270 L180 270 Z" fill="#FFD200" stroke="#000" strokeWidth="4" />
-                    <path d="M285 240 L300 270 L330 270 L305 290 L315 320 L290 300 L265 320 L275 290 L250 270 L280 270 Z" fill="#FFD200" stroke="#000" strokeWidth="4" />
-                    {/* Screaming mouth */}
-                    <ellipse cx="250" cy="330" rx="30" ry="20" fill="#FF3B30" stroke="#000" strokeWidth="6" />
-                    <circle cx="250" cy="390" r="20" fill="#00F0FF" stroke="#000" strokeWidth="6" />
-                  </svg>
-                )}
-              </div>
+                    <!-- Garis Putih Putus-Putus Interaktif -->
+                    <div class="absolute inset-4 rounded-full border-4 border-dashed border-white/40 animate-pulse pointer-events-none z-0"></div>
 
-              {/* Slanted status badge */}
-              <div className="absolute bottom-4 bg-[#FF3B30] text-white border-4 border-black font-bubble text-lg px-6 py-2 rounded-xl z-10 shadow-[4px_4px_0px_#000]">
-                SIMULATOR ENGAGED <span className="apple-emoji">🟢</span>
-              </div>
+                    <!-- SVG Maskot Utama Berkelas -->
+                    <div class="absolute inset-0 flex items-center justify-center p-8 z-10">
+                        <svg class="w-11/12 h-11/12 filter drop-shadow-[5px_8px_0px_#000]" viewBox="0 0 500 500">
+                            <!-- Topi Chef -->
+                            <path d="M190 120 Q210 50 250 50 Q290 50 310 120 Z" fill="#FFFFFF" stroke="#000" stroke-width="8" />
+                            <path d="M150 140 Q185 70 220 140 Z" fill="#FFFFFF" stroke="#000" stroke-width="8" />
+                            <path d="M280 140 Q315 70 350 140 Z" fill="#FFFFFF" stroke="#000" stroke-width="8" />
+                            <rect x="180" y="130" width="140" height="35" rx="10" fill="#FFFFFF" stroke="#000" stroke-width="8" />
+                            <rect x="185" y="145" width="130" height="10" fill="#FF3B30" />
 
+                            <!-- Kentang Goreng Emas Mengkilap -->
+                            <rect x="160" y="140" width="30" height="100" rx="8" fill="#FFD200" stroke="#000" stroke-width="7" transform="rotate(-15 160 140)" />
+                            <rect x="200" y="115" width="32" height="130" rx="8" fill="#FFE552" stroke="#000" stroke-width="7" transform="rotate(-5 200 115)" />
+                            <rect x="240" y="105" width="32" height="140" rx="8" fill="#FFD200" stroke="#000" stroke-width="7" />
+                            <rect x="280" y="118" width="32" height="130" rx="8" fill="#FFE552" stroke="#000" stroke-width="7" transform="rotate(8 280 118)" />
+                            <rect x="320" y="145" width="30" height="100" rx="8" fill="#FFD200" stroke="#000" stroke-width="7" transform="rotate(18 320 145)" />
+
+                            <!-- Wadah Kentang Merah Berani -->
+                            <path d="M140 220 L175 420 L325 420 L360 220 Z" fill="#FF3B30" stroke="#000" stroke-width="10" stroke-linejoin="round" />
+                            <path d="M155 230 L180 390" stroke="#FFA39E" stroke-width="6" stroke-linecap="round" />
+
+                            <!-- Kacamata Hitam Retro -->
+                            <rect x="175" y="245" width="62" height="42" rx="12" fill="#0D0D0D" stroke="#FFF" stroke-width="6" />
+                            <rect x="263" y="245" width="62" height="42" rx="12" fill="#0D0D0D" stroke="#FFF" stroke-width="6" />
+                            <rect x="235" y="260" width="30" height="12" fill="#0D0D0D" />
+                            <circle cx="190" cy="258" r="4" fill="#FFF" />
+                            <circle cx="278" cy="258" r="4" fill="#FFF" />
+                            <line x1="195" y1="265" x2="210" y2="280" stroke="#FFF" stroke-width="4" stroke-linecap="round" />
+                            <line x1="283" y1="265" x2="298" y2="280" stroke="#FFF" stroke-width="4" stroke-linecap="round" />
+
+                            <!-- Senyuman Koki -->
+                            <path d="M215 320 Q250 375 285 320" fill="none" stroke="#000" stroke-width="8" stroke-linecap="round" />
+
+                            <!-- Medali Emas -->
+                            <circle cx="250" cy="380" r="24" fill="#FFD200" stroke="#000" stroke-width="6" />
+                            <text x="240" y="394" font-family="Bangers" font-size="40" fill="#0D0D0D">$</text>
+                        </svg>
+                    </div>
+
+                    <!-- Label Badge Bawah Miring -->
+                    <div class="absolute bottom-4 left-4 right-4 bg-white border-4 border-black py-2.5 text-center font-bubble text-xl rounded-xl z-20 shadow-[4px_4px_0px_#000]">
+                        MEET THE GOLDEN CHEF <span class="apple-emoji">👨‍🍳</span>
+                    </div>
+                </div>
             </div>
 
-          </div>
         </div>
-      </section>
 
-      {/* OFFICIAL RECEIPTS SECTION */}
-      <section id="receipt" className="py-20 px-4 sm:px-8 bg-white border-b-[6px] border-black">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-12">
-            <span className="font-bubble text-xl text-[#00F0FF] bg-black text-white px-5 py-2 border-2 border-black rounded-xl inline-block transform rotate-1">
-              KITCHEN BILLING PORTAL
+        <!-- Transisi Awan Lembut terinspirasi langsung dari image_1158ea.jpg -->
+        <div class="absolute bottom-0 left-0 w-full overflow-hidden leading-[0]">
+            <svg class="relative block w-full h-[60px]" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M0,80 C100,50 150,110 250,80 C350,50 400,90 500,70 C600,50 700,100 800,80 C900,60 950,110 1050,80 C1150,50 1200,90 1200,80 L1200,120 L0,120 Z" fill="#FAF5E9" />
+            </svg>
+        </div>
+    </section>
+
+    <!-- PANEL CERITA KOMIK DENGAN GUTTER PUTIH TEBAL (Murni Gaya image_0754fc.jpg & image_075c81.jpg) -->
+    <section id="about" class="py-20 px-4 sm:px-8 max-w-7xl mx-auto relative">
+        <div class="text-center mb-12 transform -rotate-1">
+            <span class="font-bubble text-xl text-white uppercase tracking-widest bg-black px-4 py-1.5 rounded-lg border-2 border-black inline-block shadow-[3px_3px_0px_#FFD200]">
+                THE STORY BOARD
             </span>
-            <h2 className="font-bubble text-4xl sm:text-6xl text-[#0D0D0D] mt-3 text-stroke-sm">
-              OFFICIAL KITCHEN RECEIPT
+            <h2 class="font-bubble text-4xl sm:text-6xl text-[#FF3B30] mt-3 tracking-wider text-stroke-md">
+                WHY SOGGY MEMES GET DEEP FRIED!
             </h2>
-            <p className="font-sans-comic font-semibold text-lg text-gray-600 mt-2">
-              A high-gloss customizable check template modeled exactly after the billing elements in the reference.
-            </p>
-          </div>
-
-          {/* Live customizable controls */}
-          <div className="bg-[#FAF5E9] border-4 border-black p-4 sm:p-6 rounded-2xl mb-8 grid grid-cols-1 md:grid-cols-2 gap-4 shadow-[5px_5px_0px_#000]">
-            <div>
-              <label className="block font-bubble text-md text-[#FF3B30] mb-1">ENTER CUSTOM CHEF NAME</label>
-              <input
-                type="text"
-                className="w-full border-2 border-black p-2.5 rounded-lg font-bubble text-lg outline-none"
-                value={customChefName}
-                onChange={(e) => setCustomChefName(e.target.value.toUpperCase())}
-                placeholder="E.g. COIN CONQUEROR"
-                maxLength="20"
-              />
-            </div>
-            <div>
-              <label className="block font-bubble text-md text-[#00F0FF] mb-1">SELECT SPECIAL COMBO</label>
-              <select
-                className="w-full border-2 border-black p-2.5 rounded-lg font-bubble text-lg bg-white outline-none"
-                value={customOrderType}
-                onChange={(e) => setCustomOrderType(e.target.value)}
-              >
-                <option value="CRISPY MEGA PACK">🍟 CRISPY MEGA PACK (1,000,000 $SFRY)</option>
-                <option value="JUNGLE BOOSTER SHIELD">🌴 JUNGLE BOOSTER SHIELD (3,000,000 $SFRY)</option>
-                <option value="CHEF SPECIAL SUPREME">👨‍🍳 CHEF SPECIAL SUPREME (5,000,000 $SFRY)</option>
-                <option value="VOLCANIC EXTRA HOT">🔥 VOLCANIC EXTRA HOT (10,000,000 $SFRY)</option>
-              </select>
-            </div>
-          </div>
-
-          {/* High Fidelity Replica Receipt Mockup (Matches image_1158ea.jpg with cyan thick border) */}
-          <div className="bg-[#FAF5E9] border-[#00F0FF] border-[10px] p-6 sm:p-12 rounded-[2.5rem] comic-panel-lg relative overflow-hidden transform rotate-1">
-            <div className="absolute inset-0 bg-[radial-gradient(#00f0ff_1px,transparent_1px)] [background-size:16px_16px] opacity-10 pointer-events-none" />
-
-            <div className="relative z-10">
-              {/* Receipt Header Grid */}
-              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b-4 border-dashed border-black pb-6 gap-4">
-                <div className="flex items-center gap-3">
-                  <span className="text-5xl apple-emoji filter drop-shadow">🍟</span>
-                  <div>
-                    <h3 className="font-bubble text-3xl text-[#FF3B30] text-stroke-sm">$SFRY KITCHENS</h3>
-                    <p className="text-xs font-bold text-gray-500 uppercase tracking-widest">REGISTRATION TICKET: #9832-ETH</p>
-                  </div>
-                </div>
-                <div className="text-left sm:text-right font-bubble text-xl">
-                  <div>DATE: <span className="text-[#FF9500]">08.06.2026</span></div>
-                  <div className="text-xs text-gray-500 font-extrabold uppercase">CHEF: {customChefName || "MASTER CHEF"}</div>
-                </div>
-              </div>
-
-              {/* Receipt Middle Details */}
-              <div className="py-8 space-y-4">
-                <div className="flex justify-between font-bubble text-lg sm:text-2xl border-b-2 border-black pb-2">
-                  <span>1x {customOrderType}</span>
-                  <span className="text-[#FF3B30]">$45,000.00</span>
-                </div>
-                <div className="flex justify-between font-bubble text-lg sm:text-2xl border-b-2 border-black pb-2">
-                  <span>LIQUIDITY INGREDIENTS FEE</span>
-                  <span className="text-green-600">FREE / LOCKED</span>
-                </div>
-                <div className="flex justify-between font-bubble text-lg sm:text-2xl border-b-2 border-black pb-2">
-                  <span>GAS TAX WAIVER RECONCILIATION</span>
-                  <span className="text-[#00F0FF]">$0.00 TAX</span>
-                </div>
-              </div>
-
-              {/* Receipt Total */}
-              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-t-4 border-dashed border-black pt-6 gap-4">
-                <div>
-                  <span className="block text-[10px] uppercase font-bold text-gray-500">CONVERSION VALUE</span>
-                  <span className="font-bubble text-2xl sm:text-3xl text-[#0D0D0D]">FORTY FIVE THOUSAND USD</span>
-                </div>
-                <div className="bg-[#FFD200] border-4 border-black px-6 py-3 rounded-2xl shadow-[4px_4px_0px_#000] font-bubble text-3xl transform -rotate-2">
-                  $45,000.00
-                </div>
-              </div>
-
-              {/* Stamp and signature space */}
-              <div className="mt-8 pt-6 border-t-2 border-black flex flex-col sm:flex-row justify-between items-center gap-4">
-                <div className="flex items-center gap-3">
-                  {/* Decorative stamp */}
-                  <div className="w-16 h-16 rounded-full border-[4px] border-dashed border-[#FF3B30] flex items-center justify-center p-1 transform rotate-12">
-                    <span className="font-bubble text-[10px] text-[#FF3B30] text-center leading-none">APPROVED CHIPS</span>
-                  </div>
-                  <span className="font-bubble text-sm text-gray-600">SECURE TRANSACTION CERTIFIED</span>
-                </div>
-
-                <div className="text-right">
-                  <span className="block text-[10px] uppercase font-bold text-gray-500">CHEF SIGNATURE</span>
-                  <div className="font-comic text-3xl text-[#FF3B30] transform -rotate-3 select-none leading-none mt-1">
-                    GoldSfryChef~
-                  </div>
-                </div>
-              </div>
-
-            </div>
-          </div>
         </div>
-      </section>
 
-      {/* CHATTER BANNER STATS */}
-      <section className="py-20 bg-[#1E4620] border-b-[6px] border-black text-white relative">
-        <div className="absolute inset-0 halftone-dots-white opacity-[0.08] pointer-events-none" />
-
-        <div className="max-w-7xl mx-auto px-4 sm:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <!-- GRID PANEL KOMIK DENGAN BORDER MAKSIMAL -->
+        <div class="comic-gutter p-6 sm:p-8 rounded-[2.5rem] bg-white grid grid-cols-1 md:grid-cols-12 gap-5 relative overflow-hidden">
             
-            <div className="lg:col-span-7 space-y-6">
-              <span className="font-bubble text-xl text-[#FFD200] uppercase tracking-widest bg-black px-4 py-1 rounded-md inline-block">
-                KITCHEN VS WILD LIFE
-              </span>
-              <h2 className="font-bubble text-4xl sm:text-6xl text-white tracking-wider text-stroke-md leading-none">
-                EVERY KITCHEN HAS THEIR SNACK
-              </h2>
-              <p className="font-sans-comic text-lg sm:text-xl text-gray-200 leading-relaxed font-semibold">
-                Soggy frogs belong in ponds. Tired dog memes belong on chains. But Ethereum belongs strictly to the golden crispiness of <span className="text-[#FFD200] underline font-bold">$SFRY</span>!
-              </p>
+            <!-- Pola Garis Penggaris Komik -->
+            <div class="absolute inset-0 bg-[linear-gradient(90deg,rgba(0,0,0,0.03)_1px,transparent_1px)] bg-[size:15px_15px] pointer-events-none"></div>
 
-              {/* Dynamic Comparison stack */}
-              <div className="space-y-4 pt-4 text-black">
-                <div className="bg-white border-4 border-black p-4 rounded-xl flex justify-between items-center transform rotate-1">
-                  <span className="font-bubble text-lg sm:text-xl">🐶 SOGGY DOG COINS</span>
-                  <span className="bg-[#FF3B30] text-white font-bubble text-xs px-3 py-1 rounded border-2 border-black transform rotate-3">TIRED & SOGGY</span>
-                </div>
-                <div className="bg-white border-4 border-black p-4 rounded-xl flex justify-between items-center transform -rotate-1">
-                  <span className="font-bubble text-lg sm:text-xl">🐸 SLIMY FROG COINS</span>
-                  <span className="bg-[#FF3B30] text-white font-bubble text-xs px-3 py-1 rounded border-2 border-black transform -rotate-2">OVERPLAYED</span>
-                </div>
-                <div className="bg-[#FFD200] border-4 border-black p-4 rounded-xl flex justify-between items-center transform scale-102">
-                  <span className="font-bubble text-xl sm:text-2xl text-[#0D0D0D]">🍟 $SFRY GOLDEN BUCKET</span>
-                  <span className="bg-black text-[#00F0FF] font-bubble text-xs px-3 py-1 rounded border-2 border-black animate-pulse">ULTRA CRISPY</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Side Callout Box */}
-            <div className="lg:col-span-5 flex justify-center">
-              <div className="bg-[#FAF5E9] border-4 border-black p-8 rounded-3xl comic-panel text-black text-center transform rotate-2 max-w-sm shadow-[6px_6px_0px_#000]">
-                <span className="text-7xl apple-emoji filter drop-shadow mb-4 block">👨‍🍳👩‍🍳</span>
-                <h4 className="font-bubble text-2xl text-[#FF3B30] mb-2">CHEFS ARE SWAPPING!</h4>
-                <p className="font-sans-comic text-md font-semibold text-gray-700 leading-relaxed">
-                  Smart capital knows that soggy assets cannot withstand high frying temperatures. We only support premium hot-grease cooks!
-                </p>
-                <div className="mt-6 bg-[#00F0FF] border-2 border-black py-2.5 font-bubble text-lg rounded-xl animate-bounce">
-                  OIL VALUE STABLE!
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      {/* TOKENOMICS BANNER */}
-      <section id="tokenomics" className="py-20 bg-[#0D0D0D] text-white relative overflow-hidden">
-        <div className="absolute inset-0 halftone-dots-white opacity-10 pointer-events-none" />
-
-        <div className="max-w-7xl mx-auto px-4 sm:px-8 relative z-10">
-          
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center mb-16">
-            
-            <div className="lg:col-span-6 transform -rotate-2 text-center lg:text-left">
-              <h2 className="font-bubble text-5xl sm:text-7xl xl:text-8xl text-[#FFD200] text-stroke-md leading-none tracking-wide">
-                $SFRY <br />
-                TOKENOMICS
-              </h2>
-            </div>
-
-            <div className="lg:col-span-6">
-              <div className="bg-white text-[#0D0D0D] border-4 border-black p-6 sm:p-8 rounded-[2rem] comic-panel-lg transform rotate-1">
-                <span className="font-bubble text-xs text-gray-500 uppercase tracking-widest block mb-2 text-center">
-                  VERIFIED DEPLOYMENT CODE
-                </span>
+            <!-- PANEL 1: KUNING -->
+            <div class="md:col-span-4 bg-[#FFD200] border-[5px] border-black p-6 rounded-2xl relative overflow-hidden transform hover:scale-[1.02] transition-transform min-h-[300px] flex flex-col justify-between shadow-[6px_6px_0px_#000]">
+                <div class="absolute inset-0 halftone-dots opacity-25 pointer-events-none"></div>
+                <div class="absolute top-2 right-2 bg-black text-white font-bubble text-xs px-2.5 py-1 rounded z-10">PANEL #1</div>
                 
-                {/* Copy address bar */}
-                <div className="flex flex-col sm:flex-row items-stretch gap-2.5">
-                  <div className="bg-[#FAF5E9] border-2 border-black p-3 rounded-xl font-mono text-xs sm:text-sm text-left select-all overflow-x-auto flex-grow flex items-center justify-between">
-                    <span>{contractAddress}</span>
-                  </div>
-                  <button 
-                    onClick={copyContract}
-                    className="comic-btn bg-[#00F0FF] hover:bg-[#2fe6f2] p-3 rounded-xl font-bubble text-lg tracking-wider whitespace-nowrap flex items-center justify-center gap-1.5"
-                  >
-                    {copied ? <Check className="w-5 h-5 text-green-600" /> : <Copy className="w-5 h-5" />}
-                    <span>{copied ? "COPIED" : "COPY"}</span>
-                  </button>
+                <div class="relative z-10 mt-4">
+                    <span class="text-5xl apple-emoji mb-3 block">🐸🐕</span>
+                    <h3 class="font-bubble text-2xl text-black leading-tight text-stroke-sm">THE WATERFRONT CRISIS</h3>
+                    <p class="font-sans-comic text-sm text-black font-semibold mt-2 leading-relaxed">
+                        Ekosistem dibanjiri oleh katak berlendir dan anjing basah yang loyo. Mereka kehilangan kerenyahan serta nilai blockchain nutrisi mereka!
+                    </p>
                 </div>
-                <p className="text-center text-xs font-semibold text-gray-500 mt-2">
-                  No Tax. Liquidity Locked. Frying operations audited.
-                </p>
-              </div>
+                
+                <div class="relative z-10 bg-white border-4 border-black py-2 px-3 rounded-xl text-center font-bubble text-sm text-[#FF3B30] mt-4 shadow-[3px_3px_0px_#000]">
+                    "WE ARE OVERPLAYED AND SOGGY!"
+                </div>
             </div>
 
-          </div>
+            <!-- PANEL 2: BIRU -->
+            <div class="md:col-span-8 bg-[#1E90FF] border-[5px] border-black p-6 rounded-2xl relative overflow-hidden transform hover:scale-[1.02] transition-transform min-h-[300px] flex flex-col justify-between text-white shadow-[6px_6px_0px_#000]">
+                <div class="absolute inset-0 halftone-dots-white opacity-25 pointer-events-none"></div>
+                <div class="absolute top-2 right-2 bg-black text-white font-bubble text-xs px-2.5 py-1 rounded z-10">PANEL #2</div>
 
-          {/* Grid of metrics based on the layout */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-black">
-            
-            <div className="bg-[#FFD200] border-4 border-black p-6 rounded-2xl comic-panel text-center transform -rotate-1 shadow-[5px_5px_0px_#000]">
-              <span className="text-5xl apple-emoji filter drop-shadow mb-2 block">🏷️</span>
-              <h3 className="font-bubble text-3xl leading-none">$SFRY</h3>
-              <p className="font-sans-comic font-extrabold text-xs text-gray-700 tracking-wider mt-1">OFFICIAL SYMBOL</p>
+                <div class="relative z-10 mt-4">
+                    <span class="text-5xl apple-emoji mb-3 block">👨‍🍳🌋</span>
+                    <h3 class="font-bubble text-3xl text-[#FFD200] text-stroke-sm leading-tight">ENTER THE VOLCANIC FRYER</h3>
+                    <p class="font-sans-comic text-base text-white font-semibold mt-2 leading-relaxed">
+                        Kami menurunkan keranjang penggorengan desentralisasi langsung ke dalam minyak vulkanik panas di Ethereum Mainnet. Menghasilkan kemilau emas renyah sempurna!
+                    </p>
+                </div>
+
+                <div class="relative z-10 bg-black border-4 border-white py-2 px-3 rounded-xl text-center font-bubble text-sm text-[#00F0FF] mt-4 shadow-[3px_3px_0px_#fff]">
+                    "DIAL THE TEMPERATURE TO 180°C!"
+                </div>
             </div>
 
-            <div className="bg-[#00F0FF] border-4 border-black p-6 rounded-2xl comic-panel text-center transform rotate-2 shadow-[5px_5px_0px_#000]">
-              <span className="text-5xl apple-emoji filter drop-shadow mb-2 block">💸</span>
-              <h3 className="font-bubble text-3xl leading-none">0% TAX</h3>
-              <p className="font-sans-comic font-extrabold text-xs text-gray-700 tracking-wider mt-1">NO BUY OR SELL FEE</p>
+            <!-- PANEL 3: COKLAT -->
+            <div class="md:col-span-7 bg-[#D2691E] border-[5px] border-black p-6 rounded-2xl relative overflow-hidden transform hover:scale-[1.02] transition-transform min-h-[300px] flex flex-col justify-between text-white shadow-[6px_6px_0px_#000]">
+                <div class="absolute inset-0 halftone-dots opacity-30 pointer-events-none"></div>
+                <div class="absolute top-2 right-2 bg-black text-white font-bubble text-xs px-2.5 py-1 rounded z-10">PANEL #3</div>
+
+                <div class="relative z-10 mt-4">
+                    <span class="text-5xl apple-emoji mb-3 block">🍟🔋</span>
+                    <h3 class="font-bubble text-3xl text-white text-stroke-sm leading-tight">THE CRUNCH FORMULA</h3>
+                    <p class="font-sans-comic text-base text-orange-100 font-semibold mt-2 leading-relaxed">
+                        Dengan mempertahankan kebijakan pajak 0% dan mengunci 100% likuiditas secara permanen, kami meracik resep antipeluru tanpa gas-fee beracun.
+                    </p>
+                </div>
+
+                <div class="relative z-10 bg-white border-4 border-black py-2 px-3 rounded-xl text-center font-bubble text-sm text-black mt-4 shadow-[3px_3px_0px_#000]">
+                    "100% DEEP CRUSTY ASSURED!"
+                </div>
             </div>
 
-            <div className="bg-[#FF3B30] text-white border-4 border-black p-6 rounded-2xl comic-panel text-center transform -rotate-2 shadow-[5px_5px_0px_#000]">
-              <span className="text-5xl apple-emoji filter drop-shadow mb-2 block">🔥</span>
-              <h3 className="font-bubble text-3xl leading-none">BURNED</h3>
-              <p className="font-sans-comic font-extrabold text-xs text-gray-200 tracking-wider mt-1">LIQUIDITY LOCKED FOREVER</p>
+            <!-- PANEL 4: UNGU -->
+            <div class="md:col-span-5 bg-[#8A2BE2] border-[5px] border-black p-6 rounded-2xl relative overflow-hidden transform hover:scale-[1.02] transition-transform min-h-[300px] flex flex-col justify-between text-white shadow-[6px_6px_0px_#000]">
+                <div class="absolute inset-0 halftone-dots-white opacity-25 pointer-events-none"></div>
+                <div class="absolute top-2 right-2 bg-black text-white font-bubble text-xs px-2.5 py-1 rounded z-10">PANEL #4</div>
+
+                <div class="relative z-10 mt-4">
+                    <span class="text-5xl apple-emoji mb-3 block">👑📈</span>
+                    <h3 class="font-bubble text-2xl text-[#FFD200] text-stroke-sm leading-tight">ACCUMULATION SEASON</h3>
+                    <p class="font-sans-comic text-sm text-purple-100 font-semibold mt-2 leading-relaxed">
+                        Koki cerdas di mana-mana membuang token lama mereka yang apek demi mengumpulkan tumpukan porsi kentang $SFRY hangat yang lezat!
+                    </p>
+                </div>
+
+                <div class="relative z-10 bg-[#00F0FF] text-black border-4 border-black py-2 px-3 rounded-xl text-center font-bubble text-sm mt-4 shadow-[3px_3px_0px_#000]">
+                    "SUPER-SIZE MY COIN BAGS!"
+                </div>
             </div>
 
-          </div>
+            <!-- PANEL 5: HIJAU -->
+            <div class="md:col-span-6 bg-[#32CD32] border-[5px] border-black p-6 rounded-2xl relative overflow-hidden transform hover:scale-[1.02] transition-transform min-h-[280px] flex flex-col justify-between shadow-[6px_6px_0px_#000]">
+                <div class="absolute inset-0 halftone-dots opacity-25 pointer-events-none"></div>
+                <div class="absolute top-2 right-2 bg-black text-white font-bubble text-xs px-2.5 py-1 rounded z-10">PANEL #5</div>
+
+                <div class="relative z-10 mt-4">
+                    <span class="text-5xl apple-emoji mb-3 block">🛡️🔐</span>
+                    <h3 class="font-bubble text-2xl text-black leading-tight text-stroke-sm">SECURE LOCKED VAULTS</h3>
+                    <p class="font-sans-comic text-sm text-black font-semibold mt-2 leading-relaxed">
+                        Kunci likuiditas (LP) dibakar selamanya dan operasi dapur diaudit secara penuh. Tidak ada kentang busuk atau rugpull di dalam tangki minyak kami.
+                    </p>
+                </div>
+
+                <div class="relative z-10 bg-white border-4 border-black py-2 px-3 rounded-xl text-center font-bubble text-sm text-[#FF3B30] mt-4 shadow-[3px_3px_0px_#000]">
+                    "KITCHEN AUDIT CERTIFIED!"
+                </div>
+            </div>
+
+            <!-- PANEL 6: MERAH -->
+            <div class="md:col-span-6 bg-[#FF3B30] border-[5px] border-black p-6 rounded-2xl relative overflow-hidden transform hover:scale-[1.02] transition-transform min-h-[280px] flex flex-col justify-between text-white shadow-[6px_6px_0px_#000]">
+                <div class="absolute inset-0 halftone-dots-white opacity-25 pointer-events-none"></div>
+                <div class="absolute top-2 right-2 bg-black text-white font-bubble text-xs px-2.5 py-1 rounded z-10">PANEL #6</div>
+
+                <div class="relative z-10 mt-4">
+                    <span class="text-5xl apple-emoji mb-3 block">🚀🌖</span>
+                    <h3 class="font-bubble text-2xl text-white text-stroke-sm leading-tight">LUNAR CRISPY SUPREMACY</h3>
+                    <p class="font-sans-comic text-sm text-red-100 font-semibold mt-2 leading-relaxed">
+                        Perjalanan kami tidak berhenti di ketinggian biasa. $SFRY dirancang untuk meroket ke bulan hingga semua pemegang token menikmati keuntungan gorengan emas!
+                    </p>
+                </div>
+
+                <div class="relative z-10 bg-[#FFD200] text-black border-4 border-black py-2 px-3 rounded-xl text-center font-bubble text-sm mt-4 shadow-[3px_3px_0px_#000]">
+                    "TO THE ABSOLUTE CRISPY MOON!"
+                </div>
+            </div>
 
         </div>
-      </section>
+    </section>
 
-      {/* CALCULATOR INTERACTION */}
-      <section id="cookulator" className="py-20 px-4 sm:px-8 max-w-7xl mx-auto">
-        <div className="text-center mb-16 transform rotate-1">
-          <span className="font-bubble text-lg bg-black text-white px-4 py-1.5 rounded-lg inline-block border-2 border-black shadow-[3px_3px_0px_#FFD200]">
-            ESTIMATED CONVERSION LAB
-          </span>
-          <h2 className="font-bubble text-4xl sm:text-6xl text-[#FF3B30] mt-3 tracking-wider text-stroke-md">
-            THE CRISPY COOKALUTOR
-          </h2>
-          <p className="font-sans-comic font-bold text-lg text-gray-700 mt-1">
-            Simulate your cooking parameters to calculate expected token yields!
-          </p>
-        </div>
+    <!-- CREATOR CUSTOMIZER LAB -->
+    <section id="customizer" class="py-16 bg-[#FF9500] border-y-[6px] border-black relative">
+        <div class="absolute inset-0 halftone-dots opacity-10 pointer-events-none"></div>
 
-        <div className="max-w-2xl mx-auto bg-[#FFD200] border-4 border-black p-6 sm:p-10 rounded-[2.5rem] comic-panel-lg relative overflow-hidden transform -rotate-1">
-          <div className="absolute inset-0 halftone-dots opacity-10 pointer-events-none" />
-
-          <div className="space-y-8 relative z-10">
-            {/* Input allocation */}
-            <div>
-              <label className="block font-bubble text-xl text-black mb-2 flex justify-between">
-                <span>INPUT PURCHASE ALLOCATION (USD)</span>
-                <span className="apple-emoji">💵</span>
-              </label>
-              <input
-                type="number"
-                className="w-full border-4 border-black p-4 rounded-2xl font-bubble text-2xl outline-none focus:ring-4 focus:ring-[#00F0FF]"
-                value={usdValue}
-                onChange={(e) => setUsdValue(Math.max(0, parseInt(e.target.value) || 0))}
-              />
-            </div>
-
-            {/* Multiplier Heat Range slider */}
-            <div>
-              <div className="flex justify-between items-center font-bubble text-lg text-black mb-2">
-                <span>DEEP FRY TEMPERATURE SPEED</span>
-                <span className="bg-[#FF3B30] text-white px-3 py-1 rounded border-2 border-black text-sm">
-                  {multiplier === 100 ? "VOLCANIC EXTREME 🔥" : multiplier > 50 ? "SUPER HOT 🍳" : "WARM UP 🌡️"}
+        <div class="max-w-7xl mx-auto px-4 sm:px-8">
+            <div class="text-center mb-12">
+                <span class="font-bubble text-lg bg-white border-2 border-black px-4 py-1 rounded-lg inline-block text-stroke-sm shadow-sm">
+                    COMIC BOOK CREATION SUITE
                 </span>
-              </div>
-              <input
-                type="range"
-                min="1"
-                max="100"
-                value={multiplier}
-                onChange={(e) => setMultiplier(parseInt(e.target.value))}
-                className="w-full accent-[#FF3B30] h-3 bg-black border-2 border-black rounded-lg appearance-none cursor-pointer"
-              />
-              <div className="flex justify-between font-bubble text-xs text-gray-700 mt-2">
-                <span>LOW HEAT (1x)</span>
-                <span>MEDIUM TEMP (50x)</span>
-                <span>VOLCANIC SPICY (100x)</span>
-              </div>
+                <h2 class="font-bubble text-4xl sm:text-6xl text-white mt-3 text-stroke-md animate-pulse-light">
+                    THE COMIC CREATOR LAB
+                </h2>
+                <p class="font-sans-comic font-bold text-lg text-[#0D0D0D] max-w-xl mx-auto mt-2">
+                    Ubah ekspresi $SFRY, tulis dialog balon komik kustom, dan buat panel komik unikmu sendiri secara live!
+                </p>
             </div>
 
-            {/* Calculated Output card */}
-            <div className="bg-white border-4 border-black p-6 rounded-2xl text-center transform rotate-1 shadow-[4px_4px_0px_#000]">
-              <span className="block text-xs uppercase font-extrabold text-gray-500 tracking-wider">YOUR ESTIMATED SFRY COOKOUT</span>
-              <span className="font-bubble text-3xl sm:text-5xl text-[#FF3B30] text-stroke-sm block my-2 animate-pulse-light">
-                {getCalculatedFries().toLocaleString()} $SFRY
-              </span>
-              <p className="font-sans-comic font-bold text-sm text-[#FF9500]">
-                {multiplier > 70 
-                  ? "Extreme crispiness status achieved! Wear safety sunglasses! 😎" 
-                  : "Perfect golden crisp achieved! Ready to serve! 👨‍🍳🍟"}
-              </p>
-            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-stretch">
+                
+                <!-- Kontrol Pengubah Ekspresi -->
+                <div class="lg:col-span-5 bg-white border-[5px] border-black p-6 sm:p-8 rounded-[2rem] comic-panel-lg flex flex-col justify-between relative z-10">
+                    
+                    <div>
+                        <h3 class="font-bubble text-2xl mb-4 border-b-4 border-black pb-2 text-[#FF3B30] flex items-center gap-2">
+                            <span>1. PILIH EKSPRESI</span>
+                            <span class="text-xs bg-black text-white px-2 py-0.5 rounded uppercase">Mood</span>
+                        </h3>
+                        
+                        <!-- Pilihan Ekspresi Mood -->
+                        <div class="grid grid-cols-2 gap-3 mb-6">
+                            <button
+                                onclick="changeMood('cool', 'Menggoreng Ethereum sampai renyah maksimal!', this)"
+                                class="mood-btn comic-btn p-3 rounded-xl font-bubble text-md text-center border-2 scale-105 border-black text-white shadow-[3px_3px_0px_#000] bg-[#00F0FF]"
+                            >
+                                😎 COOL CHILL
+                            </button>
+                            <button
+                                onclick="changeMood('chef', 'Siapa yang mengizinkan mahakarya gorengan ini dimasak?!', this)"
+                                class="mood-btn comic-btn p-3 rounded-xl font-bubble text-md text-center border-2 bg-gray-100 text-[#0D0D0D]"
+                            >
+                                👨‍🍳 HEAD COOK
+                            </button>
+                            <button
+                                onclick="changeMood('spicy', 'Performa grafik di chart sangat membara!', this)"
+                                class="mood-btn comic-btn p-3 rounded-xl font-bubble text-md text-center border-2 bg-gray-100 text-[#0D0D0D]"
+                            >
+                                🔥 SPICY FLAME
+                            </button>
+                            <button
+                                onclick="changeMood('hype', 'Turunkan roket keranjang penggorengan!', this)"
+                                class="mood-btn comic-btn p-3 rounded-xl font-bubble text-md text-center border-2 bg-gray-100 text-[#0D0D0D]"
+                            >
+                                🚀 TO THE MOON
+                            </button>
+                        </div>
 
-          </div>
+                        <h3 class="font-bubble text-2xl mb-3 border-b-4 border-black pb-2 text-[#FF9500]">
+                            2. TULIS DIALOG BALON
+                        </h3>
+                        <textarea
+                            id="statementInput"
+                            oninput="updateSpeechBubble(this.value)"
+                            class="w-full border-4 border-black p-4 rounded-xl font-sans-comic font-bold text-lg outline-none focus:ring-4 focus:ring-[#00F0FF]/50 bg-[#FAF5E9] mb-4"
+                            rows="3"
+                            maxlength="80"
+                            placeholder="Ketik teks dialog untuk balon ucapan komik..."
+                        >Menggoreng Ethereum sampai renyah maksimal!</textarea>
+                    </div>
+
+                    <!-- Slider untuk Suhu Minyak -->
+                    <div class="bg-[#FAF5E9] p-4 border-2 border-black rounded-xl">
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="font-bubble text-xs text-gray-500">SUHU PENGGORENGAN</span>
+                            <span id="tempBadge" class="font-bubble text-xs bg-red-500 text-white px-2 py-0.5 rounded">180°C</span>
+                        </div>
+                        <input 
+                            type="range" 
+                            min="100" 
+                            max="220" 
+                            value="180"
+                            id="tempRange"
+                            oninput="updateTemp(this.value)"
+                            class="w-full accent-[#FF3B30] h-2 bg-black rounded"
+                        />
+                    </div>
+
+                </div>
+
+                <!-- Pratinjau Panel Komik Interaktif (Terisolasi dari Kebocoran Latar Belakang) -->
+                <div class="lg:col-span-7 bg-[#FAF5E9] border-[6px] border-black p-6 sm:p-10 rounded-[2rem] comic-panel-lg flex flex-col justify-between items-center relative min-h-[400px] overflow-hidden">
+                    
+                    <!-- Latar Sunburst Berputar yang Terkunci Aman -->
+                    <div class="absolute -top-[75%] -left-[75%] w-[250%] h-[250%] origin-center pointer-events-none z-0 overflow-hidden">
+                        <div class="w-full h-full comic-sunburst opacity-80 animate-sunburst-spin"></div>
+                    </div>
+                    <div class="absolute inset-0 halftone-dots opacity-20 pointer-events-none z-0"></div>
+
+                    <!-- Balon Ucapan Komik yang Responsif -->
+                    <div class="bg-white border-4 border-black p-5 sm:p-6 rounded-[2rem] comic-panel w-full max-w-lg relative mb-4 z-10 text-center transform -rotate-1 shadow-[4px_4px_0px_#000]">
+                        <div class="absolute bottom-[-16px] left-1/2 -translate-x-1/2 w-0 h-0 border-l-[15px] border-l-transparent border-t-[20px] border-t-black border-r-[15px] border-r-transparent"></div>
+                        <div class="absolute bottom-[-11px] left-1/2 -translate-x-1/2 w-0 h-0 border-l-[12px] border-l-transparent border-t-[16px] border-t-white border-r-[12px] border-r-transparent"></div>
+                        <p id="speechBubbleText" class="font-bubble text-xl sm:text-2xl text-[#FF3B30] leading-snug">
+                            "Menggoreng Ethereum sampai renyah maksimal!"
+                        </p>
+                    </div>
+
+                    <!-- SVG Ekspresi Maskot Dinamis Sesuai Mood Terpilih -->
+                    <div id="mascotSVGContainer" class="w-64 h-64 relative z-10 transition-transform duration-300 transform hover:scale-110 filter drop-shadow-[5px_5px_0px_#000]">
+                        <!-- Default Cool Mood SVG -->
+                        <svg class="w-full h-full" viewBox="0 0 500 500">
+                            <rect x="180" y="140" width="30" height="100" rx="8" fill="#FFD200" stroke="#000" stroke-width="8" transform="rotate(-15)" />
+                            <rect x="220" y="110" width="30" height="130" rx="8" fill="#FFE552" stroke="#000" stroke-width="8" />
+                            <rect x="260" y="110" width="30" height="130" rx="8" fill="#FFD200" stroke="#000" stroke-width="8" />
+                            <rect x="300" y="140" width="30" height="100" rx="8" fill="#FFE552" stroke="#000" stroke-width="8" transform="rotate(15)" />
+                            <path d="M140 220 L175 420 L325 420 L360 220 Z" fill="#FF3B30" stroke="#000" stroke-width="10" />
+                            <rect x="175" y="240" width="62" height="42" rx="12" fill="#0D0D0D" stroke="#FFF" stroke-width="6" />
+                            <rect x="263" y="240" width="62" height="42" rx="12" fill="#0D0D0D" stroke="#FFF" stroke-width="6" />
+                            <rect x="235" y="255" width="30" height="12" fill="#0D0D0D" />
+                            <path d="M210 320 Q250 370 290 320" stroke="#000" stroke-width="8" fill="none" stroke-linecap="round" />
+                            <circle cx="250" cy="380" r="24" fill="#FFD200" stroke="#000" stroke-width="6" />
+                        </svg>
+                    </div>
+
+                    <!-- Badge Status Komik -->
+                    <div class="absolute bottom-4 bg-[#FF3B30] text-white border-4 border-black font-bubble text-lg px-6 py-2 rounded-xl z-10 shadow-[4px_4px_0px_#000]">
+                        SIMULATOR ENGAGED <span class="apple-emoji">🟢</span>
+                    </div>
+
+                </div>
+
+            </div>
         </div>
-      </section>
+    </section>
 
-      {/* FOOTER SECTION */}
-      <footer className="bg-[#0D0D0D] text-[#FAF5E9] border-t-[6px] border-black py-16 px-4 sm:px-8 relative">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
-          
-          <div className="flex items-center gap-3">
-            <span className="text-5xl apple-emoji filter drop-shadow">🍟</span>
+    <!-- SECTION RESI DAPUR RESMI (Gaya Persis Kertas Tagihan image_1158ea.jpg dengan Border Sian Tebal) -->
+    <section id="receipt" class="py-20 px-4 sm:px-8 bg-white border-b-[6px] border-black">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-12">
+                <span class="font-bubble text-xl text-[#00F0FF] bg-black text-white px-5 py-2 border-2 border-black rounded-xl inline-block transform rotate-1">
+                    KITCHEN BILLING PORTAL
+                </span>
+                <h2 class="font-bubble text-4xl sm:text-6xl text-[#0D0D0D] mt-3 text-stroke-sm">
+                    OFFICIAL KITCHEN RECEIPT
+                </h2>
+                <p class="font-sans-comic font-semibold text-lg text-gray-600 mt-2">
+                    Resi tagihan kertas dapur yang sepenuhnya dapat disesuaikan secara dinamis.
+                </p>
+            </div>
+
+            <!-- Panel Kontrol Input Resi -->
+            <div class="bg-[#FAF5E9] border-4 border-black p-4 sm:p-6 rounded-2xl mb-8 grid grid-cols-1 md:grid-cols-2 gap-4 shadow-[5px_5px_0px_#000]">
+                <div>
+                    <label class="block font-bubble text-md text-[#FF3B30] mb-1">NAMA KOKI KUSTOM</label>
+                    <input
+                        id="chefNameInput"
+                        type="text"
+                        class="w-full border-2 border-black p-2.5 rounded-lg font-bubble text-lg outline-none"
+                        value="GOLDEN CHEF"
+                        oninput="updateReceiptChefName(this.value)"
+                        placeholder="Contoh: KOKI EMAS DEFI"
+                        maxlength="20"
+                    />
+                </div>
+                <div>
+                    <label class="block font-bubble text-md text-[#00F0FF] mb-1">PILIH MENU KOMBO SPESIAL</label>
+                    <select
+                        id="comboSelect"
+                        onchange="updateReceiptCombo(this.value)"
+                        class="w-full border-2 border-black p-2.5 rounded-lg font-bubble text-lg bg-white outline-none"
+                    >
+                        <option value="CRISPY MEGA PACK">🍟 CRISPY MEGA PACK (1,000,000 $SFRY)</option>
+                        <option value="JUNGLE BOOSTER SHIELD">🌴 JUNGLE BOOSTER SHIELD (3,000,000 $SFRY)</option>
+                        <option value="CHEF SPECIAL SUPREME">👨‍🍳 CHEF SPECIAL SUPREME (5,000,000 $SFRY)</option>
+                        <option value="VOLCANIC EXTRA HOT">🔥 VOLCANIC EXTRA HOT (10,000,000 $SFRY)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Resi dengan Gaya Cyan Khas Foto Referensi -->
+            <div class="bg-[#FAF5E9] border-[#00F0FF] border-[10px] p-6 sm:p-12 rounded-[2.5rem] comic-panel-lg relative overflow-hidden transform rotate-1">
+                <div class="absolute inset-0 bg-[radial-gradient(#00f0ff_1px,transparent_1px)] [background-size:16px_16px] opacity-10 pointer-events-none" />
+
+                <div class="relative z-10">
+                    <!-- Kepala Resi -->
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b-4 border-dashed border-black pb-6 gap-4">
+                        <div class="flex items-center gap-3">
+                            <span class="text-5xl apple-emoji filter drop-shadow">🍟</span>
+                            <div>
+                                <h3 class="font-bubble text-3xl text-[#FF3B30] text-stroke-sm">$SFRY KITCHENS</h3>
+                                <p class="text-xs font-bold text-gray-500 uppercase tracking-widest">REGISTRATION TICKET: #9832-ETH</p>
+                            </div>
+                        </div>
+                        <div class="text-left sm:text-right font-bubble text-xl">
+                            <div>TANGGAL: <span class="text-[#FF9500]">08.06.2026</span></div>
+                            <div class="text-xs text-gray-500 font-extrabold uppercase">CHEF: <span id="receiptChefName">GOLDEN CHEF</span></div>
+                        </div>
+                    </div>
+
+                    <!-- Rincian Item Resi -->
+                    <div class="py-8 space-y-4">
+                        <div class="flex justify-between font-bubble text-lg sm:text-2xl border-b-2 border-black pb-2">
+                            <span id="receiptComboText">1x CRISPY MEGA PACK</span>
+                            <span class="text-[#FF3B30]">$45,000.00</span>
+                        </div>
+                        <div class="flex justify-between font-bubble text-lg sm:text-2xl border-b-2 border-black pb-2">
+                            <span>BIAYA UTILITY BAHAN MINYAK</span>
+                            <span class="text-green-600">GRATIS / DIKUNCI</span>
+                        </div>
+                        <div class="flex justify-between font-bubble text-lg sm:text-2xl border-b-2 border-black pb-2">
+                            <span>BEBAS PAJAK TRANSAKSI DEFI</span>
+                            <span class="text-[#00F0FF]">$0.00 TAX</span>
+                        </div>
+                    </div>
+
+                    <!-- Total Keseluruhan Resi -->
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-t-4 border-dashed border-black pt-6 gap-4">
+                        <div>
+                            <span class="block text-[10px] uppercase font-bold text-gray-500">NILAI KONVERSI</span>
+                            <span class="font-bubble text-2xl sm:text-3xl text-[#0D0D0D]">FORTY FIVE THOUSAND USD</span>
+                        </div>
+                        <div class="bg-[#FFD200] border-4 border-black px-6 py-3 rounded-2xl shadow-[4px_4px_0px_#000] font-bubble text-3xl transform -rotate-2">
+                            $45,000.00
+                        </div>
+                    </div>
+
+                    <!-- Stempel Keaslian dan Tanda Tangan Koki -->
+                    <div class="mt-8 pt-6 border-t-2 border-black flex flex-col sm:flex-row justify-between items-center gap-4">
+                        <div class="flex items-center gap-3">
+                            <!-- Stempel Bergerigi -->
+                            <div class="w-16 h-16 rounded-full border-[4px] border-dashed border-[#FF3B30] flex items-center justify-center p-1 transform rotate-12">
+                                <span class="font-bubble text-[10px] text-[#FF3B30] text-center leading-none">APPROVED CHIPS</span>
+                            </div>
+                            <span class="font-bubble text-sm text-gray-600">SECURE TRANSACTION CERTIFIED</span>
+                        </div>
+
+                        <div class="text-right">
+                            <span class="block text-[10px] uppercase font-bold text-gray-500">CHEF SIGNATURE</span>
+                            <div class="font-comic text-3xl text-[#FF3B30] transform -rotate-3 select-none leading-none mt-1">
+                                GoldSfryChef~
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION PERBANDINGAN DAN CHATTER -->
+    <section class="py-20 bg-[#1E4620] border-b-[6px] border-black text-white relative">
+        <div class="absolute inset-0 halftone-dots-white opacity-[0.08] pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <div class="lg:col-span-7 space-y-6">
+                    <span class="font-bubble text-xl text-[#FFD200] uppercase tracking-widest bg-black px-4 py-1 rounded-md inline-block">
+                        KITCHEN VS WILD LIFE
+                    </span>
+                    <h2 class="font-bubble text-4xl sm:text-6xl text-white tracking-wider text-stroke-md leading-none">
+                        EVERY KITCHEN HAS THEIR SNACK
+                    </h2>
+                    <p class="font-sans-comic text-lg sm:text-xl text-gray-200 leading-relaxed font-semibold">
+                        Katak licin tempatnya di kolam. Anjing apek tempatnya di rantai. Namun Ethereum adalah wilayah renyah emas milik koki sejati <span class="text-[#FFD200] underline font-bold">$SFRY</span>!
+                    </p>
+
+                    <!-- Kartu Perbandingan Komik -->
+                    <div class="space-y-4 pt-4 text-black">
+                        <div class="bg-white border-4 border-black p-4 rounded-xl flex justify-between items-center transform rotate-1">
+                            <span class="font-bubble text-lg sm:text-xl">🐶 SOGGY DOG COINS</span>
+                            <span class="bg-[#FF3B30] text-white font-bubble text-xs px-3 py-1 rounded border-2 border-black transform rotate-3">TIRED & SOGGY</span>
+                        </div>
+                        <div class="bg-white border-4 border-black p-4 rounded-xl flex justify-between items-center transform -rotate-1">
+                            <span class="font-bubble text-lg sm:text-xl">🐸 SLIMY FROG COINS</span>
+                            <span class="bg-[#FF3B30] text-white font-bubble text-xs px-3 py-1 rounded border-2 border-black transform -rotate-2">OVERPLAYED</span>
+                        </div>
+                        <div class="bg-[#FFD200] border-4 border-black p-4 rounded-xl flex justify-between items-center transform scale-102">
+                            <span class="font-bubble text-xl sm:text-2xl text-[#0D0D0D]">🍟 $SFRY GOLDEN BUCKET</span>
+                            <span class="bg-black text-[#00F0FF] font-bubble text-xs px-3 py-1 rounded border-2 border-black animate-pulse">ULTRA CRISPY</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kotak Informasi Samping -->
+                <div class="lg:col-span-5 flex justify-center">
+                    <div class="bg-[#FAF5E9] border-4 border-black p-8 rounded-3xl comic-panel text-black text-center transform rotate-2 max-w-sm shadow-[6px_6px_0px_#000]">
+                        <span class="text-7xl apple-emoji filter drop-shadow mb-4 block">👨‍🍳👩‍🍳</span>
+                        <h4 class="font-bubble text-2xl text-[#FF3B30] mb-2">CHEFS ARE SWAPPING!</h4>
+                        <p class="font-sans-comic text-md font-semibold text-gray-700 leading-relaxed">
+                            Investor pintar tahu bahwa aset yang loyo tidak akan bertahan dalam suhu penggorengan yang tinggi. Kami hanya mendukung koki profesional!
+                        </p>
+                        <div class="mt-6 bg-[#00F0FF] border-2 border-black py-2.5 font-bubble text-lg rounded-xl animate-bounce">
+                            OIL VALUE STABLE!
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION TOKENOMICS -->
+    <section id="tokenomics" class="py-20 bg-[#0D0D0D] text-white relative overflow-hidden">
+        <div class="absolute inset-0 halftone-dots-white opacity-10 pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-8 relative z-10">
+            
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center mb-16">
+                
+                <div class="lg:col-span-6 transform -rotate-2 text-center lg:text-left">
+                    <h2 class="font-bubble text-5xl sm:text-7xl xl:text-8xl text-[#FFD200] text-stroke-md leading-none tracking-wide">
+                        $SFRY <br />
+                        TOKENOMICS
+                    </h2>
+                </div>
+
+                <!-- Bagian Penggandaan Salin Alamat Kontrak -->
+                <div class="lg:col-span-6">
+                    <div class="bg-white text-[#0D0D0D] border-4 border-black p-6 sm:p-8 rounded-[2rem] comic-panel-lg transform rotate-1">
+                        <span class="font-bubble text-xs text-gray-500 uppercase tracking-widest block mb-2 text-center">
+                            VERIFIED DEPLOYMENT CODE
+                        </span>
+                        
+                        <!-- Kolom Salin Alamat -->
+                        <div class="flex flex-col sm:flex-row items-stretch gap-2.5">
+                            <div class="bg-[#FAF5E9] border-2 border-black p-3 rounded-xl font-mono text-xs sm:text-sm text-left select-all overflow-x-auto flex-grow flex items-center justify-between">
+                                <span id="contractAddressText">0x7129731273917d84a75f4f44603947c617937</span>
+                            </div>
+                            <button 
+                                onclick="copyContract()"
+                                class="comic-btn bg-[#00F0FF] hover:bg-[#2fe6f2] p-3 rounded-xl font-bubble text-lg tracking-wider whitespace-nowrap flex items-center justify-center gap-1.5"
+                            >
+                                <i class="fa-solid fa-copy" id="copyIcon"></i>
+                                <span id="copyBtnText">COPY</span>
+                            </button>
+                        </div>
+                        <p class="text-center text-xs font-semibold text-gray-500 mt-2">
+                            Pajak 0%. Likuiditas Terbakar Selamanya. Operasi Dapur Bersih.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Grid Parameter Metrik Tokenomics -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-black">
+                
+                <div class="bg-[#FFD200] border-4 border-black p-6 rounded-2xl comic-panel text-center transform -rotate-1 shadow-[5px_5px_0px_#000]">
+                    <span class="text-5xl apple-emoji filter drop-shadow mb-2 block">🏷️</span>
+                    <h3 class="font-bubble text-3xl leading-none">$SFRY</h3>
+                    <p class="font-sans-comic font-extrabold text-xs text-gray-700 tracking-wider mt-1">SIMBOL RESMI</p>
+                </div>
+
+                <div class="bg-[#00F0FF] border-4 border-black p-6 rounded-2xl comic-panel text-center transform rotate-2 shadow-[5px_5px_0px_#000]">
+                    <span class="text-5xl apple-emoji filter drop-shadow mb-2 block">💸</span>
+                    <h3 class="font-bubble text-3xl leading-none">0% TAX</h3>
+                    <p class="font-sans-comic font-extrabold text-xs text-gray-700 tracking-wider mt-1">TANPA BIAYA BELI / JUAL</p>
+                </div>
+
+                <div class="bg-[#FF3B30] text-white border-4 border-black p-6 rounded-2xl comic-panel text-center transform -rotate-2 shadow-[5px_5px_0px_#000]">
+                    <span class="text-5xl apple-emoji filter drop-shadow mb-2 block">🔥</span>
+                    <h3 class="font-bubble text-3xl leading-none">BURNED</h3>
+                    <p class="font-sans-comic font-extrabold text-xs text-gray-200 tracking-wider mt-1">LIQUIDITY LOCKED FOREVER</p>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- KALKULATOR INTERAKTIF COOKALUTOR -->
+    <section id="cookulator" class="py-20 px-4 sm:px-8 max-w-7xl mx-auto">
+        <div class="text-center mb-16 transform rotate-1">
+            <span class="font-bubble text-lg bg-black text-white px-4 py-1.5 rounded-lg inline-block border-2 border-black shadow-[3px_3px_0px_#FFD200]">
+                ESTIMATED CONVERSION LAB
+            </span>
+            <h2 class="font-bubble text-4xl sm:text-6xl text-[#FF3B30] mt-3 tracking-wider text-stroke-md">
+                THE CRISPY COOKALUTOR
+            </h2>
+            <p class="font-sans-comic font-bold text-lg text-gray-700 mt-1">
+                Simulasikan alokasi modalmu untuk menghitung estimasi hasil token $SFRY!
+            </p>
+        </div>
+
+        <div class="max-w-2xl mx-auto bg-[#FFD200] border-4 border-black p-6 sm:p-10 rounded-[2.5rem] comic-panel-lg relative overflow-hidden transform -rotate-1">
+            <div class="absolute inset-0 halftone-dots opacity-10 pointer-events-none" />
+
+            <div class="space-y-8 relative z-10">
+                <!-- Input Alokasi Uang -->
+                <div>
+                    <label class="block font-bubble text-xl text-black mb-2 flex justify-between">
+                        <span>MASUKKAN ALOKASI PEMBELIAN (USD)</span>
+                        <span class="apple-emoji">💵</span>
+                    </label>
+                    <input
+                        type="number"
+                        id="usdAllocationInput"
+                        class="w-full border-4 border-black p-4 rounded-2xl font-bubble text-2xl outline-none focus:ring-4 focus:ring-[#00F0FF]"
+                        value="250"
+                        oninput="calculateCookulation()"
+                    />
+                </div>
+
+                <!-- Slider Multiplier Suhu Penggorengan -->
+                <div>
+                    <div class="flex justify-between items-center font-bubble text-lg text-black mb-2">
+                        <span>KECEPATAN SUHU PENGGORENGAN</span>
+                        <span id="multiplierBadge" class="bg-[#FF3B30] text-white px-3 py-1 rounded border-2 border-black text-sm">
+                            MEDIUM TEMP (50x)
+                        </span>
+                    </div>
+                    <input
+                        type="range"
+                        min="1"
+                        max="100"
+                        value="50"
+                        id="cookulatorRange"
+                        oninput="calculateCookulation()"
+                        class="w-full accent-[#FF3B30] h-3 bg-black border-2 border-black rounded-lg appearance-none cursor-pointer"
+                    />
+                    <div class="flex justify-between font-bubble text-xs text-gray-700 mt-2">
+                        <span>LOW HEAT (1x)</span>
+                        <span>MEDIUM TEMP (50x)</span>
+                        <span>VOLCANIC SPICY (100x)</span>
+                    </div>
+                </div>
+
+                <!-- Kartu Hasil Kalkulasi -->
+                <div class="bg-white border-4 border-black p-6 rounded-2xl text-center transform rotate-1 shadow-[4px_4px_0px_#000]">
+                    <span class="block text-xs uppercase font-extrabold text-gray-500 tracking-wider">ESTIMASI HASIL GORENGAN $SFRY-MU</span>
+                    <span id="cookulatorResult" class="font-bubble text-3xl sm:text-5xl text-[#FF3B30] text-stroke-sm block my-2 animate-pulse-light">
+                        312,500,000 $SFRY
+                    </span>
+                    <p id="cookulatorCommentary" class="font-sans-comic font-bold text-sm text-[#FF9500]">
+                        Kerenyahan emas sempurna tercapai! Siap dihidangkan! 👨‍🍳🍟
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- KAKI HALAMAN (FOOTER) -->
+    <footer class="bg-[#0D0D0D] text-[#FAF5E9] border-t-[6px] border-black py-16 px-4 sm:px-8 relative">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+            
+            <div class="flex items-center gap-3">
+                <span class="text-5xl apple-emoji filter drop-shadow">🍟</span>
+                <div>
+                    <h3 class="font-bubble text-3xl text-[#FFD200] tracking-wider text-stroke-sm">$SFRY COIN</h3>
+                    <p class="text-xs font-semibold text-gray-400">© 2026 SFRY Meme Coin. Semua hak gorengan dilindungi.</p>
+                </div>
+            </div>
+
+            <!-- Tombol Sosial Media -->
+            <div class="flex items-center gap-3">
+                <a href="https://x.com" target="_blank" class="comic-btn p-3 bg-[#FFD200] text-black rounded-xl hover:scale-110 transition-transform">
+                    <i class="fa-brands fa-x-twitter text-lg"></i>
+                </a>
+                <a href="https://t.me" target="_blank" class="comic-btn p-3 bg-[#00F0FF] text-black rounded-xl hover:scale-110 transition-transform">
+                    <i class="fa-brands fa-telegram text-lg"></i>
+                </a>
+                <button onclick="playSizzlingGreaseSound()" class="comic-btn p-3 bg-[#FF3B30] text-white rounded-xl hover:scale-110 transition-transform">
+                    <i class="fa-solid fa-fire text-lg"></i>
+                </button>
+            </div>
+
+        </div>
+
+        <div class="max-w-4xl mx-auto mt-8 pt-8 border-t border-gray-800 text-center text-xs text-gray-500 leading-relaxed font-sans-comic">
+            <strong>DISCLAIMER HUKUM:</strong> $SFRY adalah token meme komedi spekulatif yang dibangun murni untuk tujuan hiburan komunitas. Token ini tidak memiliki nilai intrinsik nyata, tidak menjanjikan pengembalian finansial apa pun, dan tidak memiliki peta jalan formal. Perdagangan kripto spekulatif mengandung risiko keuangan tinggi. Pastikan Anda mengamankan modal pribadi Anda sendiri.
+        </div>
+    </footer>
+
+    <!-- Notifikasi Toast Neobrutalisme Komik -->
+    <div 
+        id="toastBox"
+        class="fixed bottom-6 right-6 z-50 transition-all duration-300 transform translate-y-20 opacity-0 pointer-events-none"
+    >
+        <div class="bg-[#FFD200] text-[#0D0D0D] border-4 border-black p-5 rounded-2xl shadow-[6px_6px_0px_#000] flex items-center gap-4">
+            <span class="text-4xl apple-emoji">🍟</span>
             <div>
-              <h3 className="font-bubble text-3xl text-[#FFD200] tracking-wider text-stroke-sm">$SFRY COIN</h3>
-              <p className="text-xs font-semibold text-gray-400">© 2026 SFRY Meme Coin. All rights deep-fried.</p>
+                <h4 class="font-bubble text-lg text-[#FF3B30]">CHEF STATUS REPORT!</h4>
+                <p id="toastText" class="font-sans-comic font-bold text-sm text-gray-800">Status diperbarui!</p>
             </div>
-          </div>
-
-          {/* Mini social icons */}
-          <div className="flex items-center gap-3">
-            <a href="https://x.com" className="comic-btn p-3 bg-[#FFD200] text-black rounded-xl hover:scale-110 transition-transform">
-              <Twitter className="w-5 h-5" />
-            </a>
-            <a href="https://t.me" className="comic-btn p-3 bg-[#00F0FF] text-black rounded-xl hover:scale-110 transition-transform">
-              <MessageCircle className="w-5 h-5" />
-            </a>
-            <button onClick={playSizzlingGreaseSound} className="comic-btn p-3 bg-[#FF3B30] text-white rounded-xl hover:scale-110 transition-transform">
-              <Flame className="w-5 h-5" />
-            </button>
-          </div>
-
         </div>
-
-        <div className="max-w-4xl mx-auto mt-8 pt-8 border-t border-gray-800 text-center text-xs text-gray-500 leading-relaxed font-sans-comic">
-          <strong>LEGAL DISCLAIMER:</strong> $SFRY is a speculative comedic utility token built entirely for community entertainment purposes. It contains zero intrinsic value, promises no financial return pathways, and holds no formal roadmaps. Speculative crypto trades present substantial financial risks. Ensure you protect personal capital.
-        </div>
-      </footer>
-
-      {/* Floating particles manager */}
-      {particles.map((p) => (
-        <span
-          key={p.id}
-          className="fixed pointer-events-none z-50 animate-bounce apple-emoji"
-          style={{
-            left: `${p.left}vw`,
-            top: `${p.top}vh`,
-            transform: `rotate(${p.rotation}deg) scale(${p.scale})`,
-            transition: 'all 2s ease-out'
-          }}
-        >
-          {p.emoji}
-        </span>
-      ))}
-
-      {/* Floating Neobrutalist Toast Notification */}
-      <div 
-        className={`fixed bottom-6 right-6 z-50 transition-all duration-300 transform ${
-          toastVisible ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0 pointer-events-none'
-        }`}
-      >
-        <div className="bg-[#FFD200] text-[#0D0D0D] border-4 border-black p-5 rounded-2xl shadow-[6px_6px_0px_#000] flex items-center gap-4">
-          <span className="text-4xl apple-emoji">🍟</span>
-          <div>
-            <h4 className="font-bubble text-lg text-[#FF3B30]">CHEF STATUS REPORT!</h4>
-            <p className="font-sans-comic font-bold text-sm text-gray-800">{toastMessage}</p>
-          </div>
-        </div>
-      </div>
-
     </div>
-  );
-}
+
+    <!-- SCRIPT JAVASCRIPT AKSI INTERAKTIF -->
+    <script>
+        const contractAddress = "0x7129731273917d84a75f4f44603947c617937";
+        let audioCtx = null;
+
+        // Fungsi Notifikasi Toast
+        function triggerToast(message) {
+            const toastBox = document.getElementById("toastBox");
+            const toastText = document.getElementById("toastText");
+            toastText.textContent = message;
+            
+            toastBox.classList.remove("translate-y-20", "opacity-0", "pointer-events-none");
+            toastBox.classList.add("translate-y-0", "opacity-100");
+
+            setTimeout(() => {
+                toastBox.classList.remove("translate-y-0", "opacity-100");
+                toastBox.classList.add("translate-y-20", "opacity-0", "pointer-events-none");
+            }, 3500);
+        }
+
+        // Toggle Menu Mobile
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById("mobileMenu");
+            mobileMenu.classList.toggle("hidden");
+        }
+
+        // Salin Kontrak Alamat yang Kokoh (Metode Fallback Amankan Cross-Origin Iframes)
+        function copyContract() {
+            const executeFallbackCopy = () => {
+                const textArea = document.createElement("textarea");
+                textArea.value = contractAddress;
+                textArea.style.position = "fixed";
+                textArea.style.top = "0";
+                textArea.style.left = "0";
+                textArea.style.width = "2em";
+                textArea.style.height = "2em";
+                textArea.style.padding = "0";
+                textArea.style.border = "none";
+                textArea.style.outline = "none";
+                textArea.style.boxShadow = "none";
+                textArea.style.background = "transparent";
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                
+                try {
+                    const successful = document.execCommand('copy');
+                    if (successful) {
+                        updateCopyState();
+                    } else {
+                        triggerToast("Salin gagal. Alamat: " + contractAddress);
+                    }
+                } catch (err) {
+                    triggerToast("Salin gagal. Alamat: " + contractAddress);
+                }
+                document.body.removeChild(textArea);
+            };
+
+            const updateCopyState = () => {
+                const copyBtnText = document.getElementById("copyBtnText");
+                const copyIcon = document.getElementById("copyIcon");
+                
+                copyBtnText.textContent = "COPIED";
+                copyIcon.className = "fa-solid fa-check text-green-600";
+                triggerToast("Alamat kontrak berhasil disalin! 📋");
+
+                setTimeout(() => {
+                    copyBtnText.textContent = "COPY";
+                    copyIcon.className = "fa-solid fa-copy";
+                }, 2000);
+            };
+
+            try {
+                if (navigator.clipboard && window.isSecureContext) {
+                    navigator.clipboard.writeText(contractAddress)
+                        .then(() => {
+                            updateCopyState();
+                        })
+                        .catch(() => {
+                            executeFallbackCopy();
+                        });
+                } else {
+                    executeFallbackCopy();
+                }
+            } catch (e) {
+                executeFallbackCopy();
+            }
+        }
+
+        // Animasi Partikel Jatuh Berpendar
+        function spawnMascotParticles() {
+            const emojis = ["🍟", "🔥", "💵", "✨", "👑", "🍳"];
+            for (let i = 0; i < 15; i++) {
+                const particle = document.createElement("span");
+                particle.className = "floating-particle apple-emoji text-3xl";
+                particle.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                
+                const leftVal = Math.random() * 80 + 10;
+                const topVal = Math.random() * 60 + 20;
+                const rot = Math.random() * 360;
+                const scale = Math.random() * 1.5 + 0.5;
+
+                particle.style.left = `${leftVal}vw`;
+                particle.style.top = `${topVal}vh`;
+                particle.style.transform = `rotate(${rot}deg) scale(${scale})`;
+
+                document.body.appendChild(particle);
+
+                setTimeout(() => {
+                    particle.remove();
+                }, 2000);
+            }
+        }
+
+        // Sintesis Efek Desis Minyak Panas (Web Audio API murni)
+        function playSizzlingGreaseSound() {
+            try {
+                if (!audioCtx) {
+                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+
+                const bufferSize = audioCtx.sampleRate * 2.5; // Durasi 2.5 Detik
+                const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+                const data = buffer.getChannelData(0);
+
+                for (let i = 0; i < bufferSize; i++) {
+                    const white = Math.random() * 2 - 1;
+                    const crackle = Math.random() > 0.993 ? (Math.random() * 0.9) : 0;
+                    data[i] = white * 0.3 + crackle;
+                }
+
+                const noiseNode = audioCtx.createBufferSource();
+                noiseNode.buffer = buffer;
+
+                const bandpass = audioCtx.createBiquadFilter();
+                bandpass.type = "bandpass";
+                bandpass.frequency.setValueAtTime(3400, audioCtx.currentTime);
+                bandpass.frequency.exponentialRampToValueAtTime(4000, audioCtx.currentTime + 2.2);
+                bandpass.Q.value = 2.0;
+
+                const gainNode = audioCtx.createGain();
+                gainNode.gain.setValueAtTime(0.4, audioCtx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 2.5);
+
+                noiseNode.connect(bandpass);
+                bandpass.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+
+                noiseNode.start();
+                
+                spawnMascotParticles();
+                triggerToast("SIZZZLE! Suhu wajan penggorengan melambung! 🌡️🍳");
+            } catch (e) {
+                console.warn("AudioContext gagal dijalankan secara langsung:", e);
+            }
+        }
+
+        // Pengubah Mood Ekspresi Maskot Kustom
+        function changeMood(moodId, defaultText, element) {
+            const container = document.getElementById("mascotSVGContainer");
+            
+            // Render SVG Baru Sesuai Pilihan Mood secara langsung
+            if (moodId === 'cool') {
+                container.innerHTML = `
+                    <svg class="w-full h-full" viewBox="0 0 500 500">
+                        <rect x="180" y="140" width="30" height="100" rx="8" fill="#FFD200" stroke="#000" stroke-width="8" transform="rotate(-15)" />
+                        <rect x="220" y="110" width="30" height="130" rx="8" fill="#FFE552" stroke="#000" stroke-width="8" />
+                        <rect x="260" y="110" width="30" height="130" rx="8" fill="#FFD200" stroke="#000" stroke-width="8" />
+                        <rect x="300" y="140" width="30" height="100" rx="8" fill="#FFE552" stroke="#000" stroke-width="8" transform="rotate(15)" />
+                        <path d="M140 220 L175 420 L325 420 L360 220 Z" fill="#FF3B30" stroke="#000" stroke-width="10" />
+                        <rect x="175" y="240" width="62" height="42" rx="12" fill="#0D0D0D" stroke="#FFF" stroke-width="6" />
+                        <rect x="263" y="240" width="62" height="42" rx="12" fill="#0D0D0D" stroke="#FFF" stroke-width="6" />
+                        <rect x="235" y="255" width="30" height="12" fill="#0D0D0D" />
+                        <path d="M210 320 Q250 370 290 320" stroke="#000" stroke-width="8" fill="none" stroke-linecap="round" />
+                        <circle cx="250" cy="380" r="24" fill="#FFD200" stroke="#000" stroke-width="6" />
+                    </svg>
+                `;
+            } else if (moodId === 'chef') {
+                container.innerHTML = `
+                    <svg class="w-full h-full" viewBox="0 0 500 500">
+                        <path d="M190 110 Q210 40 250 40 Q290 40 310 110 Z" fill="#FFFFFF" stroke="#000" stroke-width="8" />
+                        <rect x="180" y="120" width="140" height="30" rx="10" fill="#FFFFFF" stroke="#000" stroke-width="8" />
+                        <path d="M140 220 L175 420 L325 420 L360 220 Z" fill="#FF3B30" stroke="#000" stroke-width="10" />
+                        <circle cx="210" cy="250" r="20" fill="#0D0D0D" />
+                        <circle cx="215" cy="245" r="6" fill="#FFF" />
+                        <circle cx="290" cy="250" r="20" fill="#0D0D0D" />
+                        <circle cx="295" cy="245" r="6" fill="#FFF" />
+                        <path d="M220 310 Q250 340 280 310" stroke="#000" stroke-width="8" fill="none" stroke-linecap="round" />
+                        <circle cx="250" cy="370" r="24" fill="#FFD200" stroke="#000" stroke-width="6" />
+                    </svg>
+                `;
+            } else if (moodId === 'spicy') {
+                container.innerHTML = `
+                    <svg class="w-full h-full" viewBox="0 0 500 500">
+                        <path d="M140 220 L175 420 L325 420 L360 220 Z" fill="#FF3B30" stroke="#000" stroke-width="10" />
+                        <path d="M170 170 Q210 80 230 150 Q270 80 290 160 Q330 90 340 180 Z" fill="#FF9500" stroke="#000" stroke-width="8" />
+                        <path d="M180 240 L230 260" stroke="#000" stroke-width="8" stroke-linecap="round" />
+                        <path d="M320 240 L270 260" stroke="#000" stroke-width="8" stroke-linecap="round" />
+                        <circle cx="205" cy="270" r="14" fill="#FF3B30" stroke="#000" stroke-width="5" />
+                        <circle cx="295" cy="270" r="14" fill="#FF3B30" stroke="#000" stroke-width="5" />
+                        <path d="M210 320 Q250 360 290 320 Z" fill="#0D0D0D" stroke="#000" stroke-width="6" />
+                        <circle cx="250" cy="380" r="24" fill="#FFD200" stroke="#000" stroke-width="6" />
+                    </svg>
+                `;
+            } else if (moodId === 'hype') {
+                container.innerHTML = `
+                    <svg class="w-full h-full" viewBox="0 0 500 500">
+                        <path d="M140 220 L175 420 L325 420 L360 220 Z" fill="#FF3B30" stroke="#000" stroke-width="10" />
+                        <path d="M185 240 L200 270 L230 270 L205 290 L215 320 L190 300 L165 320 L175 290 L150 270 L180 270 Z" fill="#FFD200" stroke="#000" stroke-width="4" />
+                        <path d="M285 240 L300 270 L330 270 L305 290 L315 320 L290 300 L265 320 L275 290 L250 270 L280 270 Z" fill="#FFD200" stroke="#000" stroke-width="4" />
+                        <ellipse cx="250" cy="330" rx="30" ry="20" fill="#FF3B30" stroke="#000" stroke-width="6" />
+                        <circle cx="250" cy="390" r="20" fill="#00F0FF" stroke="#000" stroke-width="6" />
+                    </svg>
+                `;
+            }
+
+            // Ganti Styling Aktif pada Tombol Ekspresi Mood
+            const buttons = document.querySelectorAll(".mood-btn");
+            buttons.forEach(btn => {
+                btn.className = "mood-btn comic-btn p-3 rounded-xl font-bubble text-md text-center border-2 bg-gray-100 text-[#0D0D0D]";
+                btn.style.backgroundColor = "";
+            });
+
+            // Set Warna Latar Sesuai Pilihan yang Aktif
+            element.className = "mood-btn comic-btn p-3 rounded-xl font-bubble text-md text-center border-2 scale-105 border-black text-white shadow-[3px_3px_0px_#000]";
+            if (moodId === 'cool') element.style.backgroundColor = '#00F0FF';
+            if (moodId === 'chef') element.style.backgroundColor = '#FFD200';
+            if (moodId === 'spicy') element.style.backgroundColor = '#FF3B30';
+            if (moodId === 'hype') element.style.backgroundColor = '#32CD32';
+
+            // Masukkan Teks Default Sesuai Mood
+            document.getElementById("statementInput").value = defaultText;
+            updateSpeechBubble(defaultText);
+            triggerToast(`Ekspresi diubah! Mood: ${moodId.toUpperCase()}`);
+        }
+
+        // Memperbarui Balon Teks Dialog secara Dinamis
+        function updateSpeechBubble(text) {
+            document.getElementById("speechBubbleText").textContent = `"${text}"`;
+        }
+
+        // Memperbarui Nilai Suhu Minyak
+        function updateTemp(value) {
+            document.getElementById("tempBadge").textContent = `${value}°C`;
+        }
+
+        // Memperbarui Nama Koki di Resi Kertas
+        function updateReceiptChefName(val) {
+            document.getElementById("receiptChefName").textContent = val.toUpperCase() || "MASTER CHEF";
+        }
+
+        // Memperbarui Pilihan Menu Kombo di Resi Kertas
+        function updateReceiptCombo(val) {
+            document.getElementById("receiptComboText").textContent = `1x ${val}`;
+        }
+
+        // Perhitungan Estimasi Token di Dapur Cookulator
+        function calculateCookulation() {
+            const usdVal = Math.max(0, parseInt(document.getElementById("usdAllocationInput").value) || 0);
+            const multiplierVal = parseInt(document.getElementById("cookulatorRange").value);
+            
+            const totalFries = Math.floor(usdVal * 1250000 * (multiplierVal / 50));
+            
+            // Format Hasil Token
+            document.getElementById("cookulatorResult").textContent = `${totalFries.toLocaleString()} $SFRY`;
+
+            const mBadge = document.getElementById("multiplierBadge");
+            const mCommentary = document.getElementById("cookulatorCommentary");
+
+            if (multiplierVal === 100) {
+                mBadge.textContent = "VOLCANIC EXTREME 🔥";
+                mBadge.className = "bg-red-600 text-white px-3 py-1 rounded border-2 border-black text-sm";
+                mCommentary.textContent = "Suhu ekstrem tercapai! Gunakan kacamata hitam pelindung! 😎";
+            } else if (multiplierVal > 50) {
+                mBadge.textContent = "SUPER HOT 🍳";
+                mBadge.className = "bg-orange-500 text-white px-3 py-1 rounded border-2 border-black text-sm";
+                mCommentary.textContent = "Panas tinggi! Kentang goreng mulai mengapung ke permukaan!";
+            } else {
+                mBadge.textContent = "WARM UP 🌡️";
+                mBadge.className = "bg-[#FF3B30] text-white px-3 py-1 rounded border-2 border-black text-sm";
+                mCommentary.textContent = "Kerenyahan emas sempurna tercapai! Siap dihidangkan! 👨‍🍳🍟";
+            }
+        }
+    </script>
+</body>
+</html>
