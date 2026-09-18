@@ -70,7 +70,12 @@
             transform: translateY(-1px);
         }
 
-        .scanline {
+        .scanline-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
             background: linear-gradient(
                 to bottom,
                 rgba(255,255,255,0),
@@ -80,6 +85,7 @@
             );
             background-size: 100% 4px;
             pointer-events: none;
+            z-index: 90;
         }
 
         /* Custom Scrollbar */
@@ -97,7 +103,10 @@
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col font-sans scanline overflow-x-hidden selection:bg-cyan-500 selection:text-black">
+<body class="min-h-screen flex flex-col font-sans overflow-x-hidden selection:bg-cyan-500 selection:text-black">
+
+    <!-- Scanline Visual Layer (Non-blocking) -->
+    <div class="scanline-overlay"></div>
 
     <header class="border-b border-cyan-500/30 bg-gray-950/80 backdrop-blur-md sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap justify-between items-center gap-4">
